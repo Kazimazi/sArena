@@ -9,7 +9,7 @@ local function getLayoutTable()
 end
 
 local function validateCombat()
-    if ( InCombatLockdown() ) then
+    if (InCombatLockdown()) then
         return "Must leave combat first."
     end
 
@@ -19,29 +19,29 @@ end
 local growthValues = { "Down", "Up", "Right", "Left" }
 local drCategories = {
 
-	["Stun"] = "Stun",
-	["KidneyShot"] = "KidneyShot",
-	["Incapacitate"] = "Incapacitate",
-	["Fear"] = "Fear",
-	["Horror"] = "Horror",
-	["Charm"] = "Charm",
-	["Disorient"] = "Disorient",
-	["Disarm"] = "Disarm",
-	["DisorientSmall"] = "DisorientSmall",
-	["Root"] = "Root",
-	
+    ["Stun"] = "Stun",
+    ["KidneyShot"] = "KidneyShot",
+    ["Incapacitate"] = "Incapacitate",
+    ["Fear"] = "Fear",
+    ["Horror"] = "Horror",
+    ["Charm"] = "Charm",
+    ["Disorient"] = "Disorient",
+    ["Disarm"] = "Disarm",
+    ["DisorientSmall"] = "DisorientSmall",
+    ["Root"] = "Root",
+
 }
 local racialCategories = {
     ["Human"] = "Human",
     ["Scourge"] = "Undead",
-	["Gnome"] = "Gnome",
-	["Dwarf"] = "Dwarf",
-	["Orc"] = "Orc",
-	["Tauren"] = "Tauren",
-	["BloodElf"] = "BloodElf",
-	["Troll"] = "Troll",
-	["Draenei"] = "Draenei",
-	["NightElf"] = "NightElf",
+    ["Gnome"] = "Gnome",
+    ["Dwarf"] = "Dwarf",
+    ["Orc"] = "Orc",
+    ["Tauren"] = "Tauren",
+    ["BloodElf"] = "BloodElf",
+    ["Troll"] = "Troll",
+    ["Draenei"] = "Draenei",
+    ["NightElf"] = "NightElf",
 }
 
 function sArenaMixin:GetLayoutOptionsTable(layoutName)
@@ -51,7 +51,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             name = "Arena Frames",
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName][info[#info]] end,
-            set = function(info, val) self:UpdateFrameSettings(info.handler.db.profile.layoutSettings[layoutName], info, val) end,
+            set = function(info, val) self:UpdateFrameSettings(info.handler.db.profile.layoutSettings[layoutName], info,
+                val) end,
             args = {
                 positioning = {
                     order = 1,
@@ -133,7 +134,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             name = "Spec Icons",
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].specIcon[info[#info]] end,
-            set = function(info, val) self:UpdateSpecIconSettings(info.handler.db.profile.layoutSettings[layoutName].specIcon, info, val) end,
+            set = function(info, val) self:UpdateSpecIconSettings(info.handler.db.profile.layoutSettings[layoutName].specIcon
+                , info, val) end,
             args = {
                 positioning = {
                     order = 1,
@@ -192,7 +194,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             name = "Trinkets",
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].trinket[info[#info]] end,
-            set = function(info, val) self:UpdateTrinketSettings(info.handler.db.profile.layoutSettings[layoutName].trinket, info, val) end,
+            set = function(info, val) self:UpdateTrinketSettings(info.handler.db.profile.layoutSettings[layoutName].trinket
+                , info, val) end,
             args = {
                 positioning = {
                     order = 1,
@@ -262,7 +265,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             name = "Racials",
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].racial[info[#info]] end,
-            set = function(info, val) self:UpdateRacialSettings(info.handler.db.profile.layoutSettings[layoutName].racial, info, val) end,
+            set = function(info, val) self:UpdateRacialSettings(info.handler.db.profile.layoutSettings[layoutName].racial
+                , info, val) end,
             args = {
                 positioning = {
                     order = 1,
@@ -332,7 +336,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             name = "Cast Bars",
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].castBar[info[#info]] end,
-            set = function(info, val) self:UpdateCastBarSettings(info.handler.db.profile.layoutSettings[layoutName].castBar, info, val) end,
+            set = function(info, val) self:UpdateCastBarSettings(info.handler.db.profile.layoutSettings[layoutName].castBar
+                , info, val) end,
             args = {
                 positioning = {
                     order = 1,
@@ -399,7 +404,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             name = "Diminishing Returns",
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].dr[info[#info]] end,
-            set = function(info, val) self:UpdateDRSettings(info.handler.db.profile.layoutSettings[layoutName].dr, info, val) end,
+            set = function(info, val) self:UpdateDRSettings(info.handler.db.profile.layoutSettings[layoutName].dr, info,
+                val) end,
             args = {
                 positioning = {
                     order = 1,
@@ -496,7 +502,7 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
 end
 
 function sArenaMixin:UpdateFrameSettings(db, info, val)
-    if ( val ) then
+    if (val) then
         db[info[#info]] = val
     end
 
@@ -508,56 +514,56 @@ function sArenaMixin:UpdateFrameSettings(db, info, val)
     local spacing = db.spacing
 
     for i = 1, 5 do
-        local text = self["arena"..i].ClassIconCooldown.Text
+        local text = self["arena" .. i].ClassIconCooldown.Text
         text:SetFont(text.fontFile, db.classIconFontSize, "OUTLINE")
     end
-	
-	for i = 1, 5 do
-        local text = self["arenaDummy"..i].ClassIconCooldown.Text
+
+    for i = 1, 5 do
+        local text = self["arenaDummy" .. i].ClassIconCooldown.Text
         text:SetFont(text.fontFile, db.classIconFontSize, "OUTLINE")
     end
 
     for i = 2, 5 do
-        local frame = self["arena"..i]
-        local prevFrame = self["arena"..i-1]
+        local frame = self["arena" .. i]
+        local prevFrame = self["arena" .. i - 1]
 
         frame:ClearAllPoints()
-        if ( growthDirection == 1 ) then frame:SetPoint("TOP", prevFrame, "BOTTOM", 0, -spacing)
-        elseif ( growthDirection == 2 ) then frame:SetPoint("BOTTOM", prevFrame, "TOP", 0, spacing)
-        elseif ( growthDirection == 3 ) then frame:SetPoint("LEFT", prevFrame, "RIGHT", spacing, 0)
-        elseif ( growthDirection == 4 ) then frame:SetPoint("RIGHT", prevFrame, "LEFT", -spacing, 0)
+        if (growthDirection == 1) then frame:SetPoint("TOP", prevFrame, "BOTTOM", 0, -spacing)
+        elseif (growthDirection == 2) then frame:SetPoint("BOTTOM", prevFrame, "TOP", 0, spacing)
+        elseif (growthDirection == 3) then frame:SetPoint("LEFT", prevFrame, "RIGHT", spacing, 0)
+        elseif (growthDirection == 4) then frame:SetPoint("RIGHT", prevFrame, "LEFT", -spacing, 0)
         end
     end
-	
-	for i = 2, 5 do
-        local frame = self["arenaDummy"..i]
-        local prevFrame = self["arenaDummy"..i-1]
+
+    for i = 2, 5 do
+        local frame = self["arenaDummy" .. i]
+        local prevFrame = self["arenaDummy" .. i - 1]
 
         frame:ClearAllPoints()
-        if ( growthDirection == 1 ) then frame:SetPoint("TOP", prevFrame, "BOTTOM", 0, -spacing)
-        elseif ( growthDirection == 2 ) then frame:SetPoint("BOTTOM", prevFrame, "TOP", 0, spacing)
-        elseif ( growthDirection == 3 ) then frame:SetPoint("LEFT", prevFrame, "RIGHT", spacing, 0)
-        elseif ( growthDirection == 4 ) then frame:SetPoint("RIGHT", prevFrame, "LEFT", -spacing, 0)
+        if (growthDirection == 1) then frame:SetPoint("TOP", prevFrame, "BOTTOM", 0, -spacing)
+        elseif (growthDirection == 2) then frame:SetPoint("BOTTOM", prevFrame, "TOP", 0, spacing)
+        elseif (growthDirection == 3) then frame:SetPoint("LEFT", prevFrame, "RIGHT", spacing, 0)
+        elseif (growthDirection == 4) then frame:SetPoint("RIGHT", prevFrame, "LEFT", -spacing, 0)
         end
     end
 end
 
 function sArenaMixin:UpdateCastBarSettings(db, info, val)
-    if ( val ) then
+    if (val) then
         db[info[#info]] = val
     end
 
     for i = 1, 5 do
-        local frame = self["arena"..i]
+        local frame = self["arena" .. i]
 
         frame.CastBar:ClearAllPoints()
         frame.CastBar:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
         frame.CastBar:SetScale(db.scale)
         frame.CastBar:SetWidth(db.width)
     end
-	
-	for i = 1, 5 do
-       local frame = self["arenaDummy"..i]
+
+    for i = 1, 5 do
+        local frame = self["arenaDummy" .. i]
 
         frame.CastBar:ClearAllPoints()
         frame.CastBar:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
@@ -568,24 +574,24 @@ end
 
 function sArenaMixin:UpdateDRSettings(db, info, val)
     local categories = {
-		"Stun",
-		"KidneyShot",
-		"Incapacitate",
-		"Fear",
-		"Horror",
-		"Charm",
-		"Disorient",
-		"Disarm",
-		"DisorientSmall",
-		"Root",
+        "Stun",
+        "KidneyShot",
+        "Incapacitate",
+        "Fear",
+        "Horror",
+        "Charm",
+        "Disorient",
+        "Disarm",
+        "DisorientSmall",
+        "Root",
     }
 
-    if ( val ) then
+    if (val) then
         db[info[#info]] = val
     end
 
     for i = 1, 5 do
-        local frame = self["arena"..i]
+        local frame = self["arena" .. i]
         frame:UpdateDRPositions()
 
         for n = 1, #categories do
@@ -599,8 +605,8 @@ function sArenaMixin:UpdateDRSettings(db, info, val)
             text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
         end
     end
-	for i = 1, 5 do
-        local frame = self["arenaDummy"..i]
+    for i = 1, 5 do
+        local frame = self["arenaDummy" .. i]
         frame:UpdateDRPositions()
 
         for n = 1, #categories do
@@ -617,20 +623,20 @@ function sArenaMixin:UpdateDRSettings(db, info, val)
 end
 
 function sArenaMixin:UpdateSpecIconSettings(db, info, val)
-    if ( val ) then
+    if (val) then
         db[info[#info]] = val
     end
 
     for i = 1, 5 do
-        local frame = self["arena"..i]
+        local frame = self["arena" .. i]
 
         frame.SpecIcon:ClearAllPoints()
         frame.SpecIcon:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
         frame.SpecIcon:SetScale(db.scale)
     end
-	
-	for i = 1, 5 do
-        local frame = self["arenaDummy"..i]
+
+    for i = 1, 5 do
+        local frame = self["arenaDummy" .. i]
 
         frame.SpecIcon:ClearAllPoints()
         frame.SpecIcon:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
@@ -639,57 +645,57 @@ function sArenaMixin:UpdateSpecIconSettings(db, info, val)
 end
 
 function sArenaMixin:UpdateTrinketSettings(db, info, val)
-    if ( val ) then
+    if (val) then
         db[info[#info]] = val
     end
 
     for i = 1, 5 do
-        local frame = self["arena"..i]
+        local frame = self["arena" .. i]
 
         frame.Trinket:ClearAllPoints()
         frame.Trinket:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
         frame.Trinket:SetScale(db.scale)
 
-        local text = self["arena"..i].Trinket.Cooldown.Text
+        local text = self["arena" .. i].Trinket.Cooldown.Text
         text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
     end
-	
-	for i = 1, 5 do
-        local frame = self["arenaDummy"..i]
+
+    for i = 1, 5 do
+        local frame = self["arenaDummy" .. i]
 
         frame.Trinket:ClearAllPoints()
         frame.Trinket:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
         frame.Trinket:SetScale(db.scale)
 
-        local text = self["arena"..i].Trinket.Cooldown.Text
+        local text = self["arena" .. i].Trinket.Cooldown.Text
         text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
     end
 end
 
 function sArenaMixin:UpdateRacialSettings(db, info, val)
-    if ( val ) then
+    if (val) then
         db[info[#info]] = val
     end
 
     for i = 1, 5 do
-        local frame = self["arena"..i]
+        local frame = self["arena" .. i]
 
         frame.Racial:ClearAllPoints()
         frame.Racial:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
         frame.Racial:SetScale(db.scale)
 
-        local text = self["arena"..i].Racial.Cooldown.Text
+        local text = self["arena" .. i].Racial.Cooldown.Text
         text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
     end
-	
-	for i = 1, 5 do
-        local frame = self["arenaDummy"..i]
+
+    for i = 1, 5 do
+        local frame = self["arenaDummy" .. i]
 
         frame.Racial:ClearAllPoints()
         frame.Racial:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
         frame.Racial:SetScale(db.scale)
 
-        local text = self["arena"..i].Racial.Cooldown.Text
+        local text = self["arena" .. i].Racial.Cooldown.Text
         text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
     end
 end
@@ -762,7 +768,7 @@ sArenaMixin.optionsTable = {
                                     get = function(info) return info.handler.db.profile.statusText.alwaysShow end,
                                     set = function(info, val)
                                         info.handler.db.profile.statusText.alwaysShow = val
-                                        for i = 1, 3 do info.handler["arena"..i]:UpdateStatusTextVisible()
+                                        for i = 1, 3 do info.handler["arena" .. i]:UpdateStatusTextVisible()
                                         end
                                     end,
                                 },
@@ -771,14 +777,14 @@ sArenaMixin.optionsTable = {
                                     name = "Use Percentage",
                                     type = "toggle",
                                     get = function(info) return info.handler.db.profile.statusText.usePercentage end,
-                                    set =   function(info, val)
-                                                info.handler.db.profile.statusText.usePercentage = val
+                                    set = function(info, val)
+                                        info.handler.db.profile.statusText.usePercentage = val
 
-                                                local _, instanceType = IsInInstance()
-                                                if ( instanceType ~= "arena" and info.handler.arena1:IsShown() ) then
-                                                    info.handler:Test()
-                                                end
-                                            end,
+                                        local _, instanceType = IsInInstance()
+                                        if (instanceType ~= "arena" and info.handler.arena1:IsShown()) then
+                                            info.handler:Test()
+                                        end
+                                    end,
                                 },
                             },
                         },
@@ -801,7 +807,8 @@ sArenaMixin.optionsTable = {
                                     name = "Show Names",
                                     type = "toggle",
                                     get = function(info) return info.handler.db.profile.showNames end,
-                                    set = function(info, val) info.handler.db.profile.showNames = val for i = 1, 3 do info.handler["arena"..i].Name:SetShown(val) end end,
+                                    set = function(info, val) info.handler.db.profile.showNames = val for i = 1, 3 do info
+                                        .handler["arena" .. i].Name:SetShown(val) end end,
                                 },
                             },
                         },

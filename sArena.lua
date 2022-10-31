@@ -17,23 +17,23 @@ sArenaMixin.defaultSettings = {
 }
 
 
-local iconPath="Interface\\Addons\\sArena\\Textures\\UI-CLASSES-CIRCLES.BLP";
+local iconPath = "Interface\\Addons\\sArena\\Textures\\UI-CLASSES-CIRCLES.BLP";
 
 local classIcons = {
 
-	-- UpperLeftx, UpperLefty, LowerLeftx, LowerLefty, UpperRightx, UpperRighty, LowerRightx, LowerRighty
+    -- UpperLeftx, UpperLefty, LowerLeftx, LowerLefty, UpperRightx, UpperRighty, LowerRightx, LowerRighty
 
-	["WARRIOR"] = {0, 0, 0, 0.25, 0.25, 0, 0.25, 0.25},
-	["ROGUE"] = {0.5, 0, 0.5, 0.25, 0.75, 0, 0.75, 0.25},
-	["DRUID"] = {0.75, 0, 0.75, 0.25, 1, 0, 1, 0.25},
-	["WARLOCK"] = {0.75, 0.25, 0.75, 0.5, 1, 0.25, 1, 0.5},
-	["HUNTER"] = {0, 0.25, 0, 0.5, 0.25, 0.25, 0.25, 0.5},
-	["PRIEST"] = {0.5, 0.25, 0.5, 0.5, 0.75, 0.25, 0.75, 0.5},
-	["PALADIN"] =     {0,    0.5,  0,    0.75, 0.25, 0.5,  0.25, 0.75},
-	["DEATHKNIGHT"] = {0.25, 0.5,  0.25, 0.75, 0.5,  0.5,  0.5,  0.75},
-	["MAGE"] =        {0.25, 0,    0.25, 0.25, 0.5,  0,    0.5,  0.25},
-	["SHAMAN"] = {0.25, 0.25, 0.25, 0.5, 0.5, 0.25, 0.5, 0.5},
-	
+    ["WARRIOR"] = { 0, 0, 0, 0.25, 0.25, 0, 0.25, 0.25 },
+    ["ROGUE"] = { 0.5, 0, 0.5, 0.25, 0.75, 0, 0.75, 0.25 },
+    ["DRUID"] = { 0.75, 0, 0.75, 0.25, 1, 0, 1, 0.25 },
+    ["WARLOCK"] = { 0.75, 0.25, 0.75, 0.5, 1, 0.25, 1, 0.5 },
+    ["HUNTER"] = { 0, 0.25, 0, 0.5, 0.25, 0.25, 0.25, 0.5 },
+    ["PRIEST"] = { 0.5, 0.25, 0.5, 0.5, 0.75, 0.25, 0.75, 0.5 },
+    ["PALADIN"] = { 0, 0.5, 0, 0.75, 0.25, 0.5, 0.25, 0.75 },
+    ["DEATHKNIGHT"] = { 0.25, 0.5, 0.25, 0.75, 0.5, 0.5, 0.5, 0.75 },
+    ["MAGE"] = { 0.25, 0, 0.25, 0.25, 0.5, 0, 0.5, 0.25 },
+    ["SHAMAN"] = { 0.25, 0.25, 0.25, 0.5, 0.5, 0.25, 0.5, 0.5 },
+
 };
 
 local db
@@ -69,13 +69,13 @@ local AbbreviateLargeNumbers = AbbreviateLargeNumbers
 
 local function UpdateBlizzVisibility(instanceType)
     -- hide blizz arena frames while in arena
-    if ( InCombatLockdown() ) then return end
-    if ( not IsAddOnLoaded("Blizzard_ArenaUI") ) then
-      LoadAddOn("Blizzard_ArenaUI")
-      return
+    if (InCombatLockdown()) then return end
+    if (not IsAddOnLoaded("Blizzard_ArenaUI")) then
+        LoadAddOn("Blizzard_ArenaUI")
+        return
     end
 
-    if ( not blizzFrame ) then
+    if (not blizzFrame) then
         blizzFrame = CreateFrame("Frame", nil, UIParent)
         blizzFrame:SetSize(1, 1)
         blizzFrame:SetPoint("RIGHT", UIParent, "RIGHT", 500, 0)
@@ -83,13 +83,13 @@ local function UpdateBlizzVisibility(instanceType)
     end
 
     for i = 1, 5 do
-        local arenaFrame = _G["ArenaEnemyFrame"..i]
-        local prepFrame = _G["ArenaPrepFrame"..i]
+        local arenaFrame = _G["ArenaEnemyFrame" .. i]
+        local prepFrame = _G["ArenaPrepFrame" .. i]
 
         arenaFrame:ClearAllPoints()
         prepFrame:ClearAllPoints()
 
-        if ( instanceType == "arena" ) then
+        if (instanceType == "arena") then
             arenaFrame:SetParent(blizzFrame)
             arenaFrame:SetPoint("CENTER", blizzFrame, "CENTER")
             prepFrame:SetParent(blizzFrame)
@@ -98,12 +98,12 @@ local function UpdateBlizzVisibility(instanceType)
             arenaFrame:SetParent("ArenaEnemyFrames")
             prepFrame:SetParent("ArenaPrepFrames")
 
-            if ( i == 1 ) then
+            if (i == 1) then
                 arenaFrame:SetPoint("TOP", arenaFrame:GetParent(), "TOP")
                 prepFrame:SetPoint("TOP", prepFrame:GetParent(), "TOP")
             else
-                arenaFrame:SetPoint("TOP", "ArenaEnemyFrame"..i-1, "BOTTOM", 0, -20)
-                prepFrame:SetPoint("TOP", "ArenaPrepFrame"..i-1, "BOTTOM", 0, -20)
+                arenaFrame:SetPoint("TOP", "ArenaEnemyFrame" .. i - 1, "BOTTOM", 0, -20)
+                prepFrame:SetPoint("TOP", "ArenaPrepFrame" .. i - 1, "BOTTOM", 0, -20)
             end
         end
     end
@@ -120,38 +120,38 @@ function sArenaMixin:OnLoad()
 end
 
 function sArenaMixin:OnEvent(event)
-    if ( event == "PLAYER_LOGIN" ) then
+    if (event == "PLAYER_LOGIN") then
         self:Initialize()
         self:UnregisterEvent("PLAYER_LOGIN")
-    elseif ( event == "PLAYER_ENTERING_WORLD" ) then
+    elseif (event == "PLAYER_ENTERING_WORLD") then
         local _, instanceType = IsInInstance()
         UpdateBlizzVisibility(instanceType)
         self:SetMouseState(true)
 
-        if ( instanceType == "arena" ) then
+        if (instanceType == "arena") then
             self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-			if ( InCombatLockdown() ) then return end
-			self:Show()
+            if (InCombatLockdown()) then return end
+            self:Show()
         else
             self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-			if ( InCombatLockdown() ) then return end
-			self:Hide()
+            if (InCombatLockdown()) then return end
+            self:Hide()
         end
-    elseif ( event == "COMBAT_LOG_EVENT_UNFILTERED" ) then
+    elseif (event == "COMBAT_LOG_EVENT_UNFILTERED") then
         local _, combatEvent, _, sourceGUID, _, _, _, destGUID, _, _, _, spellID, _, _, auraType = CombatLogGetCurrentEventInfo()
 
         for i = 1, 5 do
-            local ArenaFrame = self["arena"..i]
+            local ArenaFrame = self["arena" .. i]
 
-            if ( sourceGUID == UnitGUID("arena"..i) ) then
+            if (sourceGUID == UnitGUID("arena" .. i)) then
                 ArenaFrame:FindRacial(combatEvent, spellID)
                 ArenaFrame:FindTrinket(combatEvent, spellID)
             end
 
-            if ( destGUID == UnitGUID("arena"..i) ) then
+            if (destGUID == UnitGUID("arena" .. i)) then
                 ArenaFrame:FindInterrupt(combatEvent, spellID)
 
-                if ( auraType == "DEBUFF" ) then
+                if (auraType == "DEBUFF") then
                     ArenaFrame:FindDR(combatEvent, spellID)
                 end
 
@@ -159,20 +159,20 @@ function sArenaMixin:OnEvent(event)
             end
         end
 
-		for i = 1, 5 do
-            local ArenaDummyFrame = self["arenaDummy"..i]
+        for i = 1, 5 do
+            local ArenaDummyFrame = self["arenaDummy" .. i]
 
-            if ( sourceGUID == UnitGUID("arena"..i) ) then
+            if (sourceGUID == UnitGUID("arena" .. i)) then
                 ArenaDummyFrame:FindRacial(combatEvent, spellID)
                 ArenaDummyFrame:FindTrinket(combatEvent, spellID)
             end
 
-            if ( destGUID == UnitGUID("arena"..i) ) then
+            if (destGUID == UnitGUID("arena" .. i)) then
                 ArenaDummyFrame:FindInterrupt(combatEvent, spellID)
                 return
             end
         end
-	
+
     end
 end
 
@@ -185,7 +185,7 @@ local function ChatCommand(input)
 end
 
 function sArenaMixin:Initialize()
-    if ( db ) then return end
+    if (db) then return end
 
     self.db = LibStub("AceDB-3.0"):New("sArena3DB", self.defaultSettings, true)
     db = self.db
@@ -208,7 +208,7 @@ function sArenaMixin:RefreshConfig()
 end
 
 function sArenaMixin:SetLayout(_, layout)
-    if ( InCombatLockdown() ) then return end
+    if (InCombatLockdown()) then return end
 
     layout = sArenaMixin.layouts[layout] and layout or "BlizzArena"
 
@@ -216,45 +216,46 @@ function sArenaMixin:SetLayout(_, layout)
     self.layoutdb = self.db.profile.layoutSettings[layout]
 
     for i = 1, 5 do
-        local frame = self["arena"..i]
-		local dummyFrame = self["arenaDummy"..i]
+        local frame = self["arena" .. i]
+        local dummyFrame = self["arenaDummy" .. i]
         frame:ResetLayout()
-		dummyFrame:ResetLayout()
+        dummyFrame:ResetLayout()
         self.layouts[layout]:Initialize(frame)
-		self.layouts[layout]:Initialize(dummyFrame)
+        self.layouts[layout]:Initialize(dummyFrame)
         frame:UpdatePlayer()
-		dummyFrame:UpdatePlayer()
+        dummyFrame:UpdatePlayer()
     end
 
-    self.optionsTable.args.layoutSettingsGroup.args = self.layouts[layout].optionsTable and self.layouts[layout].optionsTable or emptyLayoutOptionsTable
+    self.optionsTable.args.layoutSettingsGroup.args = self.layouts[layout].optionsTable and
+        self.layouts[layout].optionsTable or emptyLayoutOptionsTable
     LibStub("AceConfigRegistry-3.0"):NotifyChange("sArena")
 
     local _, instanceType = IsInInstance()
-    if ( instanceType ~= "arena" and self.arena1:IsShown() ) then
+    if (instanceType ~= "arena" and self.arena1:IsShown()) then
         self:Test()
     end
 end
 
 function sArenaMixin:SetupDrag(frameToClick, frameToMove, settingsTable, updateMethod)
     frameToClick:HookScript("OnMouseDown", function()
-        if ( InCombatLockdown() ) then return end
+        if (InCombatLockdown()) then return end
 
-        if ( IsShiftKeyDown() and IsControlKeyDown() and not frameToMove.isMoving ) then
+        if (IsShiftKeyDown() and IsControlKeyDown() and not frameToMove.isMoving) then
             frameToMove:StartMoving()
             frameToMove.isMoving = true
         end
     end)
 
     frameToClick:HookScript("OnMouseUp", function()
-        if ( InCombatLockdown() ) then return end
+        if (InCombatLockdown()) then return end
 
-        if ( frameToMove.isMoving ) then
+        if (frameToMove.isMoving) then
             frameToMove:StopMovingOrSizing()
             frameToMove.isMoving = false
 
             local settings = db.profile.layoutSettings[db.profile.currentLayout]
 
-            if ( settingsTable ) then
+            if (settingsTable) then
                 settings = settings[settingsTable]
             end
 
@@ -266,8 +267,8 @@ function sArenaMixin:SetupDrag(frameToClick, frameToMove, settingsTable, updateM
             frameY = ((frameY * scale) - parentY) / scale
 
             -- round to 1 decimal place
-            frameX = floor(frameX * 10 + 0.5 ) / 10
-            frameY = floor(frameY * 10 + 0.5 ) / 10
+            frameX = floor(frameX * 10 + 0.5) / 10
+            frameY = floor(frameY * 10 + 0.5) / 10
 
             settings.posX, settings.posY = frameX, frameY
             self[updateMethod](self, settings)
@@ -277,22 +278,22 @@ function sArenaMixin:SetupDrag(frameToClick, frameToMove, settingsTable, updateM
 end
 
 function sArenaMixin:SetMouseState(state)
-	if not string.find(self:GetName(), "Dummy") then
-		for i = 1, 5 do
-			local frame = self["arena"..i]
-			frame.CastBar:EnableMouse(state)
-			frame.Stun:EnableMouse(state)
-			frame.SpecIcon:EnableMouse(state)
-			frame.Trinket:EnableMouse(state)
-			frame.Racial:EnableMouse(state)
-		end
-	end
+    if not string.find(self:GetName(), "Dummy") then
+        for i = 1, 5 do
+            local frame = self["arena" .. i]
+            frame.CastBar:EnableMouse(state)
+            frame.Stun:EnableMouse(state)
+            frame.SpecIcon:EnableMouse(state)
+            frame.Trinket:EnableMouse(state)
+            frame.Racial:EnableMouse(state)
+        end
+    end
 end
 
 -- Arena Frames
 
 local function ResetTexture(texturePool, t)
-    if ( texturePool ) then
+    if (texturePool) then
         t:SetParent(texturePool.parent)
     end
 
@@ -307,16 +308,16 @@ local function ResetTexture(texturePool, t)
 end
 
 function sArenaFrameMixin:OnLoad()
-    local unit = "arena"..self:GetID()
+    local unit = "arena" .. self:GetID()
 
     self.parent = self:GetParent()
 
     self:RegisterEvent("PLAYER_LOGIN")
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
     self:RegisterEvent("UNIT_NAME_UPDATE")
-	self:RegisterEvent("ARENA_OPPONENT_UPDATE")
-	self:RegisterEvent("ARENA_COOLDOWNS_UPDATE")
-	self:RegisterEvent("ARENA_CROWD_CONTROL_SPELL_UPDATE")
+    self:RegisterEvent("ARENA_OPPONENT_UPDATE")
+    self:RegisterEvent("ARENA_COOLDOWNS_UPDATE")
+    self:RegisterEvent("ARENA_CROWD_CONTROL_SPELL_UPDATE")
     self:RegisterUnitEvent("UNIT_HEALTH", unit)
     self:RegisterUnitEvent("UNIT_MAXHEALTH", unit)
     self:RegisterUnitEvent("UNIT_POWER_UPDATE", unit)
@@ -324,14 +325,14 @@ function sArenaFrameMixin:OnLoad()
     self:RegisterUnitEvent("UNIT_DISPLAYPOWER", unit)
     self:RegisterUnitEvent("UNIT_AURA", unit)
 
-	
-	if not string.find(self:GetName(), "Dummy") then
-		RegisterUnitWatch(self, false)
-		self:RegisterForClicks("AnyUp")
-		self:SetAttribute("*type1", "target")
-		self:SetAttribute("*type2", "focus")
-		self:SetAttribute("unit", unit)
-	end
+
+    if not string.find(self:GetName(), "Dummy") then
+        RegisterUnitWatch(self, false)
+        self:RegisterForClicks("AnyUp")
+        self:SetAttribute("*type1", "target")
+        self:SetAttribute("*type2", "focus")
+        self:SetAttribute("unit", unit)
+    end
     self.unit = unit
 
     CastingBarFrame_SetUnit(self.CastBar, unit, false, true)
@@ -343,77 +344,77 @@ end
 function sArenaFrameMixin:OnEvent(event, eventUnit, ...)
     local unit = self.unit
 
-    if ( eventUnit and eventUnit == unit ) then
-        if ( event == "UNIT_NAME_UPDATE" ) then
-			self.Name:SetText(UnitName(unit))
-        elseif ( event == "ARENA_OPPONENT_UPDATE" ) then
+    if (eventUnit and eventUnit == unit) then
+        if (event == "UNIT_NAME_UPDATE") then
+            self.Name:SetText(UnitName(unit))
+        elseif (event == "ARENA_OPPONENT_UPDATE") then
             local unitEvent = ...;
-			self:UpdatePlayer(unitEvent)
-		elseif ( event == "ARENA_COOLDOWNS_UPDATE" ) then
+            self:UpdatePlayer(unitEvent)
+        elseif (event == "ARENA_COOLDOWNS_UPDATE") then
             self:UpdateTrinket()
-        elseif ( event == "ARENA_CROWD_CONTROL_SPELL_UPDATE" ) then
+        elseif (event == "ARENA_CROWD_CONTROL_SPELL_UPDATE") then
             local unitTarget, spellID, itemID = ...;
-			if (spellID ~= self.Trinket.spellID) then
-				self.Trinket.spellID = spellID;
+            if (spellID ~= self.Trinket.spellID) then
+                self.Trinket.spellID = spellID;
 
-				if(itemID ~= 0) then
-					local itemTexture = GetItemIcon(itemID);
-					self.Trinket.Texture:SetTexture(itemTexture);
-				else
-					local spellTexture, spellTextureNoOverride = GetSpellTexture(spellID);
-					self.Trinket.Texture:SetTexture(spellTextureNoOverride);
-				end
-			end
-  
-        elseif ( event == "UNIT_AURA" ) then
+                if (itemID ~= 0) then
+                    local itemTexture = GetItemIcon(itemID);
+                    self.Trinket.Texture:SetTexture(itemTexture);
+                else
+                    local spellTexture, spellTextureNoOverride = GetSpellTexture(spellID);
+                    self.Trinket.Texture:SetTexture(spellTextureNoOverride);
+                end
+            end
+
+        elseif (event == "UNIT_AURA") then
             self:FindAura()
-        elseif ( event == "UNIT_HEALTH" ) then
+        elseif (event == "UNIT_HEALTH") then
             self:SetLifeState()
             self:SetStatusText()
             local currHp = UnitHealth(unit)
-            if ( currHp ~= self.currHp ) then
+            if (currHp ~= self.currHp) then
                 self.HealthBar:SetValue(currHp)
-               -- UnitFrameHealPredictionBars_Update(self)
+                -- UnitFrameHealPredictionBars_Update(self)
                 self.currHp = currHp
             end
-        elseif ( event == "UNIT_MAXHEALTH" ) then
+        elseif (event == "UNIT_MAXHEALTH") then
             self.HealthBar:SetMinMaxValues(0, UnitHealthMax(unit))
             self.HealthBar:SetValue(UnitHealth(unit))
-           -- UnitFrameHealPredictionBars_Update(self)
-        elseif ( event == "UNIT_POWER_UPDATE" ) then
+            -- UnitFrameHealPredictionBars_Update(self)
+        elseif (event == "UNIT_POWER_UPDATE") then
             self:SetStatusText()
             self.PowerBar:SetValue(UnitPower(unit))
-        elseif ( event == "UNIT_MAXPOWER" ) then
+        elseif (event == "UNIT_MAXPOWER") then
             self.PowerBar:SetMinMaxValues(0, UnitPowerMax(unit))
             self.PowerBar:SetValue(UnitPower(unit))
-        elseif ( event == "UNIT_DISPLAYPOWER" ) then
+        elseif (event == "UNIT_DISPLAYPOWER") then
             local _, powerType = UnitPowerType(unit)
             self:SetPowerType(powerType)
             self.PowerBar:SetMinMaxValues(0, UnitPowerMax(unit))
             self.PowerBar:SetValue(UnitPower(unit))
         end
-    elseif ( event == "PLAYER_LOGIN" ) then
+    elseif (event == "PLAYER_LOGIN") then
         self:UnregisterEvent("PLAYER_LOGIN")
 
-        if ( not db ) then
+        if (not db) then
             self.parent:Initialize()
         end
 
         self:Initialize()
-    elseif ( event == "PLAYER_ENTERING_WORLD" ) then
+    elseif (event == "PLAYER_ENTERING_WORLD") then
         self.Name:SetText("")
-		self.ArenaSlot:SetText("")
+        self.ArenaSlot:SetText("")
         self.CastBar:Hide()
         self.specTexture = nil
         self.class = nil
         self.currentClassIconTexture = nil
         self.currentClassIconStartTime = 0
         self:UpdatePlayer()
-		self:ResetTrinket()
+        self:ResetTrinket()
         self:ResetRacial()
         self:ResetDR()
-       -- UnitFrameHealPredictionBars_Update(self)
-    elseif ( event == "PLAYER_REGEN_ENABLED" ) then
+        -- UnitFrameHealPredictionBars_Update(self)
+    elseif (event == "PLAYER_REGEN_ENABLED") then
         self:UnregisterEvent("PLAYER_REGEN_ENABLED")
     end
 end
@@ -428,72 +429,71 @@ function sArenaFrameMixin:Initialize()
     self.parent:SetupDrag(self.Racial, self.Racial, "racial", "UpdateRacialSettings")
 end
 
-
 function sArenaFrameMixin:OnShow()
 
-	local frameName = self:GetName()
-	local drTable = self.parent.activeDRs[frameName]
-	local dummyFrame = _G[self:GetName().."Dummy"]
+    local frameName = self:GetName()
+    local drTable = self.parent.activeDRs[frameName]
+    local dummyFrame = _G[self:GetName() .. "Dummy"]
 
-	dummyFrame:Hide()
-	dummyFrame:ClearAllPoints()
-	
-	if drTable then
-		for key, tableValue in pairs(drTable) do
-			local currTime = GetTime()
-			if currTime < (tableValue.startTime + tableValue.timer) then
-				local frame = self[tableValue.drCategory]
+    dummyFrame:Hide()
+    dummyFrame:ClearAllPoints()
 
-			
-				frame.Icon:SetTexture(tableValue.drTexture)
-				if tableValue.drSeverity == 2	then
-					frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity-1]))
-				else 
-					frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity]))
-				end
-				frame.Cooldown:SetCooldown(tableValue.startTime, tableValue.timer)
-			
-				frame:Show()
-			else
-				drTable[key] = nil
-			end
-		end
-	end
+    if drTable then
+        for key, tableValue in pairs(drTable) do
+            local currTime = GetTime()
+            if currTime < (tableValue.startTime + tableValue.timer) then
+                local frame = self[tableValue.drCategory]
+
+
+                frame.Icon:SetTexture(tableValue.drTexture)
+                if tableValue.drSeverity == 2 then
+                    frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity - 1]))
+                else
+                    frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity]))
+                end
+                frame.Cooldown:SetCooldown(tableValue.startTime, tableValue.timer)
+
+                frame:Show()
+            else
+                drTable[key] = nil
+            end
+        end
+    end
 end
 
 function sArenaFrameMixin:OnHide()
 
-	local _, instanceType = IsInInstance()
-	if instanceType ~= "arena" then return end
-	local frameName = self:GetName()
-	local drTable = self.parent.activeDRs[frameName]
-	local dummyFrame = _G[self:GetName().."Dummy"]
+    local _, instanceType = IsInInstance()
+    if instanceType ~= "arena" then return end
+    local frameName = self:GetName()
+    local drTable = self.parent.activeDRs[frameName]
+    local dummyFrame = _G[self:GetName() .. "Dummy"]
 
-	dummyFrame:Show()
-	dummyFrame:SetAllPoints(self)
-	
-	if drTable then
-		for key, tableValue in pairs(drTable) do
-			local currTime = GetTime()
-			if currTime < (tableValue.startTime + tableValue.timer) then
-				local frame = dummyFrame[tableValue.drCategory]
-				
-				frame.Icon:SetTexture(tableValue.drTexture)
-				
-				if tableValue.drSeverity == 2 then
-					frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity-1]))
-				else 
-					frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity]))
-				end
-				frame.Cooldown:SetCooldown(tableValue.startTime, tableValue.timer)
-				
-				frame:Show()
-			
-			else
-				drTable[key] = nil
-			end
-		end
-	end
+    dummyFrame:Show()
+    dummyFrame:SetAllPoints(self)
+
+    if drTable then
+        for key, tableValue in pairs(drTable) do
+            local currTime = GetTime()
+            if currTime < (tableValue.startTime + tableValue.timer) then
+                local frame = dummyFrame[tableValue.drCategory]
+
+                frame.Icon:SetTexture(tableValue.drTexture)
+
+                if tableValue.drSeverity == 2 then
+                    frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity - 1]))
+                else
+                    frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity]))
+                end
+                frame.Cooldown:SetCooldown(tableValue.startTime, tableValue.timer)
+
+                frame:Show()
+
+            else
+                drTable[key] = nil
+            end
+        end
+    end
 
 end
 
@@ -516,24 +516,24 @@ function sArenaFrameMixin:UpdatePlayer(unitEvent)
     self:GetClassAndSpec()
     self:FindAura()
 
-    if ( ( unitEvent and unitEvent ~= "seen" ) or (UnitGUID(self.unit) == nil) ) then
+    if ((unitEvent and unitEvent ~= "seen") or (UnitGUID(self.unit) == nil)) then
         self:SetMysteryPlayer()
-        return	
+        return
     end
-	
+
     self:UpdateTrinket()
     self:UpdateRacial()
 
     -- prevent castbar and other frames from intercepting mouse clicks during a match
-	if ( unitEvent == "seen" ) then
+    if (unitEvent == "seen") then
         self.parent:SetMouseState(false)
     end
 
     self.hideStatusText = false
     self.Name:SetText(UnitName(unit))
-	self.ArenaSlot:SetText("A"..self:GetID())
+    self.ArenaSlot:SetText("A" .. self:GetID())
     self.Name:SetShown(db.profile.showNames)
-	self.ArenaSlot:SetShown(db.profile.showNames)
+    self.ArenaSlot:SetShown(db.profile.showNames)
     self:UpdateStatusTextVisible()
     self:SetStatusText()
 
@@ -545,7 +545,7 @@ function sArenaFrameMixin:UpdatePlayer(unitEvent)
 
     local color = RAID_CLASS_COLORS[select(2, UnitClass(unit))]
 
-    if ( color and db.profile.classColors ) then
+    if (color and db.profile.classColors) then
         self.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1.0)
     else
         self.HealthBar:SetStatusBarColor(0, 1.0, 0, 1.0)
@@ -554,18 +554,18 @@ end
 
 function sArenaFrameMixin:SetMysteryPlayer()
     local f = self.HealthBar
-    f:SetMinMaxValues(0,100)
+    f:SetMinMaxValues(0, 100)
     f:SetValue(100)
     f:SetStatusBarColor(0.5, 0.5, 0.5)
 
     f = self.PowerBar
-    f:SetMinMaxValues(0,100)
+    f:SetMinMaxValues(0, 100)
     f:SetValue(100)
     f:SetStatusBarColor(0.5, 0.5, 0.5)
 
     self.hideStatusText = true
     self:SetStatusText()
-	
+
 
     self.DeathIcon:Hide()
 end
@@ -573,12 +573,12 @@ end
 function sArenaFrameMixin:GetClassAndSpec()
     local _, instanceType = IsInInstance()
 
-    if ( instanceType ~= "arena" ) then
+    if (instanceType ~= "arena") then
         self.specTexture = nil
         self.class = nil
         self.SpecIcon:Hide()
-    elseif ( not self.class and UnitGUID(self.unit)) then
-	--[[
+    elseif (not self.class and UnitGUID(self.unit)) then
+        --[[
         local id = self:GetID()
         if ( GetNumArenaOpponentSpecs() >= id ) then
             local specID = GetArenaOpponentSpec(id)
@@ -591,40 +591,42 @@ function sArenaFrameMixin:GetClassAndSpec()
             end
         end
 		--]]
-    
-            _, self.class = UnitClass(self.unit)
- 
+
+        _, self.class = UnitClass(self.unit)
+
     end
 
-    if ( not self.specTexture ) then
+    if (not self.specTexture) then
         self.SpecIcon:Hide()
     end
 end
 
 function sArenaFrameMixin:UpdateClassIcon()
-    if ( self.currentAuraSpellID and self.currentAuraDuration > 0 and self.currentClassIconStartTime ~= self.currentAuraStartTime ) then
+    if (
+        self.currentAuraSpellID and self.currentAuraDuration > 0 and
+            self.currentClassIconStartTime ~= self.currentAuraStartTime) then
         self.ClassIconCooldown:SetCooldown(self.currentAuraStartTime, self.currentAuraDuration)
         self.currentClassIconStartTime = self.currentAuraStartTime
-    elseif ( self.currentAuraDuration == 0 ) then
+    elseif (self.currentAuraDuration == 0) then
         self.ClassIconCooldown:Clear()
         self.currentClassIconStartTime = 0
     end
-	
+
     local texture = self.currentAuraSpellID and self.currentAuraTexture or self.class and "class" or 134400
 
-    if ( self.currentClassIconTexture == texture ) then return end
+    if (self.currentClassIconTexture == texture) then return end
 
     self.currentClassIconTexture = texture
 
 
-	-- Could do SetPortraitTexture() since its hooked anyway in my other addon
-    if ( texture == "class" ) then
-       
-		self.ClassIcon:SetTexture(iconPath, true);
-		self.ClassIcon:SetTexCoord(unpack(classIcons[self.class]));
-		return
+    -- Could do SetPortraitTexture() since its hooked anyway in my other addon
+    if (texture == "class") then
+
+        self.ClassIcon:SetTexture(iconPath, true);
+        self.ClassIcon:SetTexCoord(unpack(classIcons[self.class]));
+        return
     end
-	self.ClassIcon:SetTexCoord(0,1,0,1)
+    self.ClassIcon:SetTexCoord(0, 1, 0, 1)
     self.ClassIcon:SetTexture(texture)
 end
 
@@ -679,16 +681,16 @@ function sArenaFrameMixin:ResetLayout()
 
     f = self.Name
     ResetFontString(f)
-	f:SetScale(1)
+    f:SetScale(1)
     f:SetDrawLayer("ARTWORK", 2)
-	f:SetFontObject("SystemFont_Shadow_Small2")
-	
-	f = self.ArenaSlot
+    f:SetFontObject("SystemFont_Shadow_Small2")
+
+    f = self.ArenaSlot
     ResetFontString(f)
-	f:SetScale(1)
+    f:SetScale(1)
     f:SetDrawLayer("ARTWORK", 2)
-	f:SetFontObject("SystemFont_Shadow_Small2")
-	--f:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
+    f:SetFontObject("SystemFont_Shadow_Small2")
+    --f:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
 
     f = self.HealthText
     ResetFontString(f)
@@ -719,7 +721,7 @@ function sArenaFrameMixin:FindAura()
     local unit = self.unit
     local currentSpellID, currentDuration, currentExpirationTime, currentTexture = nil, 0, 0, nil
 
-    if ( self.currentInterruptSpellID ) then
+    if (self.currentInterruptSpellID) then
         currentSpellID = self.currentInterruptSpellID
         currentDuration = self.currentInterruptDuration
         currentExpirationTime = self.currentInterruptExpirationTime
@@ -732,12 +734,12 @@ function sArenaFrameMixin:FindAura()
         for n = 1, 30 do
             local _, texture, _, _, duration, expirationTime, _, _, _, spellID = UnitAura(unit, n, filter)
 
-            if ( not spellID ) then break end
+            if (not spellID) then break end
 
-            if ( auraList[spellID] ) then
-                if ( not currentSpellID or auraList[spellID] < auraList[currentSpellID] ) then
+            if (auraList[spellID]) then
+                if (not currentSpellID or auraList[spellID] < auraList[currentSpellID]) then
                     currentSpellID = spellID
-					
+
                     currentDuration = duration
                     currentExpirationTime = expirationTime
                     currentTexture = texture
@@ -746,14 +748,14 @@ function sArenaFrameMixin:FindAura()
         end
     end
 
-    if ( currentSpellID ) then
+    if (currentSpellID) then
 
         self.currentAuraSpellID = currentSpellID
         self.currentAuraStartTime = currentExpirationTime - currentDuration
         self.currentAuraDuration = currentDuration
         self.currentAuraTexture = currentTexture
     else
-	
+
         self.currentAuraSpellID = nil
         self.currentAuraStartTime = 0
         self.currentAuraDuration = 0
@@ -766,13 +768,13 @@ end
 function sArenaFrameMixin:FindInterrupt(event, spellID)
     local interruptDuration = interruptList[spellID]
 
-    if ( not interruptDuration ) then return end
-    if ( event ~= "SPELL_INTERRUPT" and event ~= "SPELL_CAST_SUCCESS" ) then return end
+    if (not interruptDuration) then return end
+    if (event ~= "SPELL_INTERRUPT" and event ~= "SPELL_CAST_SUCCESS") then return end
 
     local unit = self.unit
     local _, _, _, _, _, _, notInterruptable = UnitChannelInfo(unit)
 
-    if ( event == "SPELL_INTERRUPT" or notInterruptable == false ) then
+    if (event == "SPELL_INTERRUPT" or notInterruptable == false) then
         self.currentInterruptSpellID = spellID
         self.currentInterruptDuration = interruptDuration
         self.currentInterruptExpirationTime = GetTime() + interruptDuration
@@ -794,15 +796,15 @@ function sArenaFrameMixin:SetLifeState()
 
     self.DeathIcon:SetShown(isDead)
     self.hideStatusText = isDead
-    if ( isDead ) then
+    if (isDead) then
         self:ResetDR()
     end
 end
 
 function sArenaFrameMixin:SetStatusText(unit)
 
-    if ( self.hideStatusText ) then
-	--[[
+    if (self.hideStatusText) then
+        --[[
 		f = self.HealthText
 		ResetFontString(f)
 		f:SetDrawLayer("ARTWORK", 4)
@@ -814,19 +816,19 @@ function sArenaFrameMixin:SetStatusText(unit)
 		f:SetDrawLayer("ARTWORK", 3)
 		f:SetFontObject("Game10Font_o1")
 		f:SetTextColor(1, 1, 1, 1)
-		--]]	
-		self.HealthText:SetFontObject("Game10Font_o1")
-		self.HealthText:SetText("")
-		self.HealthText:SetScale(0.64)
-		self.PowerText:SetFontObject("Game10Font_o1")
-		self.PowerText:SetText("")
-		self.PowerText:SetScale(0.64)
-		
-		
+		--]]
+        self.HealthText:SetFontObject("Game10Font_o1")
+        self.HealthText:SetText("")
+        self.HealthText:SetScale(0.64)
+        self.PowerText:SetFontObject("Game10Font_o1")
+        self.PowerText:SetText("")
+        self.PowerText:SetScale(0.64)
+
+
         return
     end
 
-    if ( not unit ) then
+    if (not unit) then
         unit = self.unit
     end
 
@@ -835,7 +837,7 @@ function sArenaFrameMixin:SetStatusText(unit)
     local pp = UnitPower(unit)
     local ppMax = UnitPowerMax(unit)
 
-    if ( db.profile.statusText.usePercentage ) then
+    if (db.profile.statusText.usePercentage) then
         self.HealthText:SetText(ceil((hp / hpMax) * 100) .. "%")
         self.PowerText:SetText(ceil((pp / ppMax) * 100) .. "%")
     else
@@ -850,344 +852,344 @@ function sArenaFrameMixin:UpdateStatusTextVisible()
 end
 
 function sArenaMixin:HideAll(info)
-    for i = 1, 5 do 
-        info.handler["arena"..i]:OnEvent("PLAYER_ENTERING_WORLD") 
-        RegisterUnitWatch(info.handler["arena"..i], false)
-    end 
+    for i = 1, 5 do
+        info.handler["arena" .. i]:OnEvent("PLAYER_ENTERING_WORLD")
+        RegisterUnitWatch(info.handler["arena" .. i], false)
+    end
 end
 
 function sArenaMixin:Test()
-	local _, instanceType = IsInInstance()
-    if ( InCombatLockdown() or instanceType == "arena") then return end
-	
+    local _, instanceType = IsInInstance()
+    if (InCombatLockdown() or instanceType == "arena") then return end
+
     self:Show();
     local currTime = GetTime()
 
     for i = 1, 5 do
-		
-		if (i == 1) then
-		
-			local frame = self["arena"..i]
-			UnregisterUnitWatch(frame, false)
-			frame:Show()
-			frame:SetAlpha(1)
 
-			frame.HealthBar:SetMinMaxValues(0, 100)
-			frame.HealthBar:SetValue(100)
+        if (i == 1) then
 
-			frame.PowerBar:SetMinMaxValues(0, 100)
-			frame.PowerBar:SetValue(100)
-			
-			frame.ClassIcon:SetTexture(iconPath, true);
-			frame.ClassIcon:SetTexCoord(unpack(classIcons["DEATHKNIGHT"]));
-			frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
+            local frame = self["arena" .. i]
+            UnregisterUnitWatch(frame, false)
+            frame:Show()
+            frame:SetAlpha(1)
 
-			frame.SpecIcon:Show()
-			frame.SpecIcon.Texture:SetTexture(132222)
+            frame.HealthBar:SetMinMaxValues(0, 100)
+            frame.HealthBar:SetValue(100)
 
-			frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-			frame.Name:SetText("Ruddy")
-			frame.Name:SetShown(db.profile.showNames)
+            frame.PowerBar:SetMinMaxValues(0, 100)
+            frame.PowerBar:SetValue(100)
 
-			frame.Trinket.Texture:SetTexture(133453)
-			frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
+            frame.ClassIcon:SetTexture(iconPath, true);
+            frame.ClassIcon:SetTexCoord(unpack(classIcons["DEATHKNIGHT"]));
+            frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
 
-			frame.Racial.Texture:SetTexture(136225)
-			frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
+            frame.SpecIcon:Show()
+            frame.SpecIcon.Texture:SetTexture(132222)
 
-			local color = RAID_CLASS_COLORS["HUNTER"]
-			if ( db.profile.classColors ) then
-				frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
-			else
-				frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
-			end
-			frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
+            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
+            frame.Name:SetText("Ruddy")
+            frame.Name:SetShown(db.profile.showNames)
 
-			for n = 1, #self.drCategories do
-				local drFrame = frame[self.drCategories[n]]
+            frame.Trinket.Texture:SetTexture(133453)
+            frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
 
-				drFrame.Icon:SetTexture(136071)
-				drFrame:Show()
-				drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
+            frame.Racial.Texture:SetTexture(136225)
+            frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
 
-				if ( n == 1 ) then
-					drFrame.Border:SetVertexColor(1, 0, 0, 1)
-				else
-					drFrame.Border:SetVertexColor(0, 1, 0, 1)
-				end
-			end
+            local color = RAID_CLASS_COLORS["HUNTER"]
+            if (db.profile.classColors) then
+                frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
+            else
+                frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
+            end
+            frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-			frame.CastBar.fadeOut = nil
-			frame.CastBar:Show()
-			frame.CastBar:SetAlpha(1)
-			frame.CastBar.Icon:SetTexture(135130)
-			frame.CastBar.Text:SetText("Aimed Shot")
-			frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
+            for n = 1, #self.drCategories do
+                local drFrame = frame[self.drCategories[n]]
 
-			frame.hideStatusText = false
-			frame:SetStatusText("player")
-			frame:UpdateStatusTextVisible()
-			
-		elseif (i == 2) then
-			
-			local frame = self["arena"..i]
-			UnregisterUnitWatch(frame, false)
-			frame:Show()
-			frame:SetAlpha(1)
-			
-			frame.HealthBar:SetMinMaxValues(0, 100)
-			frame.HealthBar:SetValue(100)
+                drFrame.Icon:SetTexture(136071)
+                drFrame:Show()
+                drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
 
-			frame.PowerBar:SetMinMaxValues(0, 100)
-			frame.PowerBar:SetValue(100)
-			
-			frame.ClassIcon:SetTexture(iconPath, true);
-			frame.ClassIcon:SetTexCoord(unpack(classIcons["SHAMAN"]));
+                if (n == 1) then
+                    drFrame.Border:SetVertexColor(1, 0, 0, 1)
+                else
+                    drFrame.Border:SetVertexColor(0, 1, 0, 1)
+                end
+            end
+
+            frame.CastBar.fadeOut = nil
+            frame.CastBar:Show()
+            frame.CastBar:SetAlpha(1)
+            frame.CastBar.Icon:SetTexture(135130)
+            frame.CastBar.Text:SetText("Aimed Shot")
+            frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
+
+            frame.hideStatusText = false
+            frame:SetStatusText("player")
+            frame:UpdateStatusTextVisible()
+
+        elseif (i == 2) then
+
+            local frame = self["arena" .. i]
+            UnregisterUnitWatch(frame, false)
+            frame:Show()
+            frame:SetAlpha(1)
+
+            frame.HealthBar:SetMinMaxValues(0, 100)
+            frame.HealthBar:SetValue(100)
+
+            frame.PowerBar:SetMinMaxValues(0, 100)
+            frame.PowerBar:SetValue(100)
+
+            frame.ClassIcon:SetTexture(iconPath, true);
+            frame.ClassIcon:SetTexCoord(unpack(classIcons["SHAMAN"]));
 
 
-			frame.SpecIcon:Show()
+            frame.SpecIcon:Show()
 
-			frame.SpecIcon.Texture:SetTexture(136048)
+            frame.SpecIcon.Texture:SetTexture(136048)
 
-			frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
-			frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-			frame.Name:SetText("Aeded")
-			frame.Name:SetShown(db.profile.showNames)
+            frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
+            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
+            frame.Name:SetText("Aeded")
+            frame.Name:SetShown(db.profile.showNames)
 
-			frame.Trinket.Texture:SetTexture(133453)
-			frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
+            frame.Trinket.Texture:SetTexture(133453)
+            frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
 
-			frame.Racial.Texture:SetTexture(135923)
-			frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
+            frame.Racial.Texture:SetTexture(135923)
+            frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
 
-			local color = RAID_CLASS_COLORS["SHAMAN"]
-			if ( db.profile.classColors ) then
-				frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
-			else
-				frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
-			end
-			frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
+            local color = RAID_CLASS_COLORS["SHAMAN"]
+            if (db.profile.classColors) then
+                frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
+            else
+                frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
+            end
+            frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-			for n = 1, #self.drCategories do
-				local drFrame = frame[self.drCategories[n]]
+            for n = 1, #self.drCategories do
+                local drFrame = frame[self.drCategories[n]]
 
-				drFrame.Icon:SetTexture(136175)
-				drFrame:Show()
-				drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
+                drFrame.Icon:SetTexture(136175)
+                drFrame:Show()
+                drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
 
-				if ( n == 1 ) then
-					drFrame.Border:SetVertexColor(1, 0, 0, 1)
-				else
-					drFrame.Border:SetVertexColor(0, 1, 0, 1)
-				end
+                if (n == 1) then
+                    drFrame.Border:SetVertexColor(1, 0, 0, 1)
+                else
+                    drFrame.Border:SetVertexColor(0, 1, 0, 1)
+                end
                 n = n + 1;
-			end
+            end
 
-			frame.CastBar.fadeOut = nil
-			frame.CastBar:Show()
-			frame.CastBar:SetAlpha(1)
-			frame.CastBar.Icon:SetTexture(136015)
-			frame.CastBar.Text:SetText("Chain Lightning")
-			frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
+            frame.CastBar.fadeOut = nil
+            frame.CastBar:Show()
+            frame.CastBar:SetAlpha(1)
+            frame.CastBar.Icon:SetTexture(136015)
+            frame.CastBar.Text:SetText("Chain Lightning")
+            frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
 
-			frame.hideStatusText = false
-			frame:SetStatusText("player")
-			frame:UpdateStatusTextVisible()
-			
-		elseif (i == 3)	then
-		
-			local frame = self["arena"..i]
-			UnregisterUnitWatch(frame, false)
-			frame:Show()
-			frame:SetAlpha(1)
+            frame.hideStatusText = false
+            frame:SetStatusText("player")
+            frame:UpdateStatusTextVisible()
 
-			frame.HealthBar:SetMinMaxValues(0, 100)
-			frame.HealthBar:SetValue(100)
+        elseif (i == 3) then
 
-			frame.PowerBar:SetMinMaxValues(0, 100)
-			frame.PowerBar:SetValue(100)
-			
-			frame.ClassIcon:SetTexture(iconPath, true);
-			frame.ClassIcon:SetTexCoord(unpack(classIcons["DRUID"]));
+            local frame = self["arena" .. i]
+            UnregisterUnitWatch(frame, false)
+            frame:Show()
+            frame:SetAlpha(1)
 
+            frame.HealthBar:SetMinMaxValues(0, 100)
+            frame.HealthBar:SetValue(100)
 
-			frame.SpecIcon:Show()
+            frame.PowerBar:SetMinMaxValues(0, 100)
+            frame.PowerBar:SetValue(100)
 
-			frame.SpecIcon.Texture:SetTexture(136041)
-
-			frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
-			frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-			frame.Name:SetText("Peterparkour")
-			frame.Name:SetShown(db.profile.showNames)
-		
-			frame.Trinket.Texture:SetTexture(133453)
-			frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
-
-			frame.Racial.Texture:SetTexture(132089)
-			frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
-
-			local color = RAID_CLASS_COLORS["DRUID"]
-			if ( db.profile.classColors ) then
-				frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
-			else
-				frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
-			end
-			frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
-
-			for n = 1, #self.drCategories do
-				local drFrame = frame[self.drCategories[n]]
-
-				drFrame.Icon:SetTexture(132298)
-				drFrame:Show()
-				drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
-
-				if ( n == 1 ) then
-					drFrame.Border:SetVertexColor(1, 0, 0, 1)
-				else
-					drFrame.Border:SetVertexColor(0, 1, 0, 1)
-				end
-			end
-
-			frame.CastBar.fadeOut = nil
-			frame.CastBar:Show()
-			frame.CastBar:SetAlpha(1)
-			frame.CastBar.Icon:SetTexture(136085)
-			frame.CastBar.Text:SetText("Regrowth")
-			frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
-
-			frame.hideStatusText = false
-			frame:SetStatusText("player")
-			frame:UpdateStatusTextVisible()
-		
-		elseif (i == 4)	then
-		
-			local frame = self["arena"..i]
-			UnregisterUnitWatch(frame, false)
-			frame:Show()
-			frame:SetAlpha(1)
-
-			frame.HealthBar:SetMinMaxValues(0, 100)
-			frame.HealthBar:SetValue(100)
-
-			frame.PowerBar:SetMinMaxValues(0, 100)
-			frame.PowerBar:SetValue(100)
-			
-			frame.ClassIcon:SetTexture(iconPath, true);
-			frame.ClassIcon:SetTexCoord(unpack(classIcons["WARLOCK"]));
+            frame.ClassIcon:SetTexture(iconPath, true);
+            frame.ClassIcon:SetTexCoord(unpack(classIcons["DRUID"]));
 
 
-			frame.SpecIcon:Show()
+            frame.SpecIcon:Show()
 
-			frame.SpecIcon.Texture:SetTexture(136145)
+            frame.SpecIcon.Texture:SetTexture(136041)
 
-			frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
-			frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-			frame.Name:SetText("Tazar")
-			frame.Name:SetShown(db.profile.showNames)
-		
-			frame.Trinket.Texture:SetTexture(133453)
-			frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
+            frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
+            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
+            frame.Name:SetText("Peterparkour")
+            frame.Name:SetShown(db.profile.showNames)
 
-			frame.Racial.Texture:SetTexture(136090)
-			frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
+            frame.Trinket.Texture:SetTexture(133453)
+            frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
 
-			local color = RAID_CLASS_COLORS["WARLOCK"]
-			if ( db.profile.classColors ) then
-				frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
-			else
-				frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
-			end
-			frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
+            frame.Racial.Texture:SetTexture(132089)
+            frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
 
-			for n = 1, #self.drCategories do
-				local drFrame = frame[self.drCategories[n]]
+            local color = RAID_CLASS_COLORS["DRUID"]
+            if (db.profile.classColors) then
+                frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
+            else
+                frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
+            end
+            frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-				drFrame.Icon:SetTexture(132298)
-				drFrame:Show()
-				drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
+            for n = 1, #self.drCategories do
+                local drFrame = frame[self.drCategories[n]]
 
-				if ( n == 1 ) then
-					drFrame.Border:SetVertexColor(1, 0, 0, 1)
-				else
-					drFrame.Border:SetVertexColor(0, 1, 0, 1)
-				end
-			end
+                drFrame.Icon:SetTexture(132298)
+                drFrame:Show()
+                drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
 
-			frame.CastBar.fadeOut = nil
-			frame.CastBar:Show()
-			frame.CastBar:SetAlpha(1)
-			frame.CastBar.Icon:SetTexture(136147)
-			frame.CastBar.Text:SetText("Howl of Terror")
-			frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
+                if (n == 1) then
+                    drFrame.Border:SetVertexColor(1, 0, 0, 1)
+                else
+                    drFrame.Border:SetVertexColor(0, 1, 0, 1)
+                end
+            end
 
-			frame.hideStatusText = false
-			frame:SetStatusText("player")
-			frame:UpdateStatusTextVisible()
-			
-		else
-		
-			local frame = self["arena"..i]
-			UnregisterUnitWatch(frame, false)
-			frame:Show()
-			frame:SetAlpha(1)
+            frame.CastBar.fadeOut = nil
+            frame.CastBar:Show()
+            frame.CastBar:SetAlpha(1)
+            frame.CastBar.Icon:SetTexture(136085)
+            frame.CastBar.Text:SetText("Regrowth")
+            frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
 
-			frame.HealthBar:SetMinMaxValues(0, 100)
-			frame.HealthBar:SetValue(100)
+            frame.hideStatusText = false
+            frame:SetStatusText("player")
+            frame:UpdateStatusTextVisible()
 
-			frame.PowerBar:SetMinMaxValues(0, 100)
-			frame.PowerBar:SetValue(100)
-			
-			frame.ClassIcon:SetTexture(iconPath, true);
-			frame.ClassIcon:SetTexCoord(unpack(classIcons["WARRIOR"]));
+        elseif (i == 4) then
+
+            local frame = self["arena" .. i]
+            UnregisterUnitWatch(frame, false)
+            frame:Show()
+            frame:SetAlpha(1)
+
+            frame.HealthBar:SetMinMaxValues(0, 100)
+            frame.HealthBar:SetValue(100)
+
+            frame.PowerBar:SetMinMaxValues(0, 100)
+            frame.PowerBar:SetValue(100)
+
+            frame.ClassIcon:SetTexture(iconPath, true);
+            frame.ClassIcon:SetTexCoord(unpack(classIcons["WARLOCK"]));
 
 
-			frame.SpecIcon:Show()
+            frame.SpecIcon:Show()
 
-			frame.SpecIcon.Texture:SetTexture(132355)
+            frame.SpecIcon.Texture:SetTexture(136145)
 
-			frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
-			frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-			frame.Name:SetText("Klimpb")
-			frame.Name:SetShown(db.profile.showNames)
-		
-			frame.Trinket.Texture:SetTexture(133453)
-			frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
+            frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
+            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
+            frame.Name:SetText("Tazar")
+            frame.Name:SetShown(db.profile.showNames)
 
-			frame.Racial.Texture:SetTexture(132309)
-			frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
+            frame.Trinket.Texture:SetTexture(133453)
+            frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
 
-			local color = RAID_CLASS_COLORS["WARRIOR"]
-			if ( db.profile.classColors ) then
-				frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
-			else
-				frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
-			end
-			frame.PowerBar:SetStatusBarColor(170/255, 10/255, 10/255)
+            frame.Racial.Texture:SetTexture(136090)
+            frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
 
-			for n = 1, #self.drCategories do
-				local drFrame = frame[self.drCategories[n]]
+            local color = RAID_CLASS_COLORS["WARLOCK"]
+            if (db.profile.classColors) then
+                frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
+            else
+                frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
+            end
+            frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-				drFrame.Icon:SetTexture(132298)
-				drFrame:Show()
-				drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
+            for n = 1, #self.drCategories do
+                local drFrame = frame[self.drCategories[n]]
 
-				if ( n == 1 ) then
-					drFrame.Border:SetVertexColor(1, 0, 0, 1)
-				else
-					drFrame.Border:SetVertexColor(0, 1, 0, 1)
-				end
-			end
+                drFrame.Icon:SetTexture(132298)
+                drFrame:Show()
+                drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
 
-			frame.CastBar.fadeOut = nil
-			frame.CastBar:Show()
-			frame.CastBar:SetAlpha(1)
-			frame.CastBar.Icon:SetTexture(132340)
-			frame.CastBar.Text:SetText("Slam")
-			frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
+                if (n == 1) then
+                    drFrame.Border:SetVertexColor(1, 0, 0, 1)
+                else
+                    drFrame.Border:SetVertexColor(0, 1, 0, 1)
+                end
+            end
 
-			frame.hideStatusText = false
-			frame:SetStatusText("player")
-			frame:UpdateStatusTextVisible()
-		end
+            frame.CastBar.fadeOut = nil
+            frame.CastBar:Show()
+            frame.CastBar:SetAlpha(1)
+            frame.CastBar.Icon:SetTexture(136147)
+            frame.CastBar.Text:SetText("Howl of Terror")
+            frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
+
+            frame.hideStatusText = false
+            frame:SetStatusText("player")
+            frame:UpdateStatusTextVisible()
+
+        else
+
+            local frame = self["arena" .. i]
+            UnregisterUnitWatch(frame, false)
+            frame:Show()
+            frame:SetAlpha(1)
+
+            frame.HealthBar:SetMinMaxValues(0, 100)
+            frame.HealthBar:SetValue(100)
+
+            frame.PowerBar:SetMinMaxValues(0, 100)
+            frame.PowerBar:SetValue(100)
+
+            frame.ClassIcon:SetTexture(iconPath, true);
+            frame.ClassIcon:SetTexCoord(unpack(classIcons["WARRIOR"]));
+
+
+            frame.SpecIcon:Show()
+
+            frame.SpecIcon.Texture:SetTexture(132355)
+
+            frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
+            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
+            frame.Name:SetText("Klimpb")
+            frame.Name:SetShown(db.profile.showNames)
+
+            frame.Trinket.Texture:SetTexture(133453)
+            frame.Trinket.Cooldown:SetCooldown(currTime, math.random(20, 60))
+
+            frame.Racial.Texture:SetTexture(132309)
+            frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
+
+            local color = RAID_CLASS_COLORS["WARRIOR"]
+            if (db.profile.classColors) then
+                frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
+            else
+                frame.HealthBar:SetStatusBarColor(0, 1, 0, 1)
+            end
+            frame.PowerBar:SetStatusBarColor(170 / 255, 10 / 255, 10 / 255)
+
+            for n = 1, #self.drCategories do
+                local drFrame = frame[self.drCategories[n]]
+
+                drFrame.Icon:SetTexture(132298)
+                drFrame:Show()
+                drFrame.Cooldown:SetCooldown(currTime, n == 1 and 60 or math.random(20, 50))
+
+                if (n == 1) then
+                    drFrame.Border:SetVertexColor(1, 0, 0, 1)
+                else
+                    drFrame.Border:SetVertexColor(0, 1, 0, 1)
+                end
+            end
+
+            frame.CastBar.fadeOut = nil
+            frame.CastBar:Show()
+            frame.CastBar:SetAlpha(1)
+            frame.CastBar.Icon:SetTexture(132340)
+            frame.CastBar.Text:SetText("Slam")
+            frame.CastBar:SetStatusBarColor(1, 0.7, 0, 1)
+
+            frame.hideStatusText = false
+            frame:SetStatusText("player")
+            frame:UpdateStatusTextVisible()
+        end
     end
 end

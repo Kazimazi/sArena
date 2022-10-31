@@ -1,12 +1,12 @@
 sArenaMixin.Dispels = {
-	[GetSpellInfo(527)] = 8,    -- priest (purify)
-	[GetSpellInfo(4987)] = 8,   -- paladin (cleanse)
-	[GetSpellInfo(77130)] = 8,  -- shaman (purify spirit)
-	[GetSpellInfo(88423)] = 8,  -- druid (nature's cure)
+	[GetSpellInfo(527)] = 8, -- priest (purify)
+	[GetSpellInfo(4987)] = 8, -- paladin (cleanse)
+	[GetSpellInfo(77130)] = 8, -- shaman (purify spirit)
+	[GetSpellInfo(88423)] = 8, -- druid (nature's cure)
 	[GetSpellInfo(115450)] = 8, -- monk (detox)
-	[GetSpellInfo(2782)] = 8,	  -- dps druid (remove corruption)
-	[GetSpellInfo(51886)] = 8,  -- dps shaman (cleanse spirit)
-	[GetSpellInfo(475)] = 8	  -- dps mage (remove curse)
+	[GetSpellInfo(2782)] = 8, -- dps druid (remove corruption)
+	[GetSpellInfo(51886)] = 8, -- dps shaman (cleanse spirit)
+	[GetSpellInfo(475)] = 8 -- dps mage (remove curse)
 };
 
 function sArenaFrameMixin:SetDispelTexture()
@@ -40,9 +40,9 @@ end
 
 function sArenaFrameMixin:UpdateDispel(duration)
 	if duration then
-        local currTime = GetTime();
-        self.Dispel.Cooldown:SetCooldown(currTime, duration);
-    end
+		local currTime = GetTime();
+		self.Dispel.Cooldown:SetCooldown(currTime, duration);
+	end
 end
 
 function sArenaFrameMixin:GetDispelCD()
@@ -54,7 +54,7 @@ end
 
 function sArenaFrameMixin:FindDispel(event, spell)
 	self:SetDispelTexture()
-    if ( event ~= "SPELL_DISPEL" ) then return end
+	if (event ~= "SPELL_DISPEL") then return end
 	local cd = sArenaMixin.Dispels[GetSpellInfo(spell)]
 	if spell and cd then
 		self:UpdateDispel(cd)
