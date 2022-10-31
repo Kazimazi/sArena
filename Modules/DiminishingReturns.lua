@@ -37,17 +37,11 @@ drFractionSeverityColor = {
 	[3] = { 1, 0, 0, 1 },
 }
 
-
 local GetTime = GetTime
 
 local function insertDR(drTable, category, timeStamp, stopTime, texture, severity)
-
-
-
 	drTable[category] = { drCategory = category, startTime = timeStamp, timer = stopTime, drTexture = texture,
 		drSeverity = severity }
-
-
 end
 
 function sArenaFrameMixin:FindDR(combatEvent, spellID)

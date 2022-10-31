@@ -459,6 +459,19 @@ function sArenaFrameMixin:OnShow()
     end
 end
 
+function sArenaFrameMixin:OnEnter()
+    UnitFrame_OnEnter(self)
+
+    self.HealthText:Show()
+    self.PowerText:Show()
+end
+
+function sArenaFrameMixin:OnLeave()
+    UnitFrame_OnLeave(self)
+
+    self:UpdateStatusTextVisible()
+end
+
 function sArenaFrameMixin:OnHide()
     local _, instanceType = IsInInstance()
     if instanceType ~= "arena" then return end
@@ -491,19 +504,6 @@ function sArenaFrameMixin:OnHide()
         end
     end
 
-end
-
-function sArenaFrameMixin:OnEnter()
-    UnitFrame_OnEnter(self)
-
-    self.HealthText:Show()
-    self.PowerText:Show()
-end
-
-function sArenaFrameMixin:OnLeave()
-    UnitFrame_OnLeave(self)
-
-    self:UpdateStatusTextVisible()
 end
 
 function sArenaFrameMixin:UpdatePlayer(unitEvent)
@@ -562,7 +562,6 @@ function sArenaFrameMixin:SetMysteryPlayer()
     self.hideStatusText = true
     self:SetStatusText()
 
-
     self.DeathIcon:Hide()
 end
 
@@ -597,9 +596,8 @@ function sArenaFrameMixin:GetClassAndSpec()
 end
 
 function sArenaFrameMixin:UpdateClassIcon()
-    if (
-        self.currentAuraSpellID and self.currentAuraDuration > 0 and
-            self.currentClassIconStartTime ~= self.currentAuraStartTime) then
+    if (self.currentAuraSpellID and self.currentAuraDuration > 0 and
+        self.currentClassIconStartTime ~= self.currentAuraStartTime) then
         self.ClassIconCooldown:SetCooldown(self.currentAuraStartTime, self.currentAuraDuration)
         self.currentClassIconStartTime = self.currentAuraStartTime
     elseif (self.currentAuraDuration == 0) then
@@ -815,7 +813,6 @@ function sArenaFrameMixin:SetStatusText(unit)
         self.PowerText:SetFontObject("Game10Font_o1")
         self.PowerText:SetText("")
         self.PowerText:SetScale(0.64)
-
 
         return
     end
