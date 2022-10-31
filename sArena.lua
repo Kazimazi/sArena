@@ -459,6 +459,19 @@ function sArenaFrameMixin:OnShow()
     end
 end
 
+function sArenaFrameMixin:OnEnter()
+    UnitFrame_OnEnter(self)
+
+    self.HealthText:Show()
+    self.PowerText:Show()
+end
+
+function sArenaFrameMixin:OnLeave()
+    UnitFrame_OnLeave(self)
+
+    self:UpdateStatusTextVisible()
+end
+
 function sArenaFrameMixin:OnHide()
     local _, instanceType = IsInInstance()
     if instanceType ~= "arena" then return end
@@ -491,19 +504,6 @@ function sArenaFrameMixin:OnHide()
         end
     end
 
-end
-
-function sArenaFrameMixin:OnEnter()
-    UnitFrame_OnEnter(self)
-
-    self.HealthText:Show()
-    self.PowerText:Show()
-end
-
-function sArenaFrameMixin:OnLeave()
-    UnitFrame_OnLeave(self)
-
-    self:UpdateStatusTextVisible()
 end
 
 function sArenaFrameMixin:UpdatePlayer(unitEvent)
