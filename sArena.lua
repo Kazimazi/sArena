@@ -430,7 +430,6 @@ function sArenaFrameMixin:Initialize()
 end
 
 function sArenaFrameMixin:OnShow()
-
     local frameName = self:GetName()
     local drTable = self.parent.activeDRs[frameName]
     local dummyFrame = _G[self:GetName() .. "Dummy"]
@@ -443,7 +442,6 @@ function sArenaFrameMixin:OnShow()
             local currTime = GetTime()
             if currTime < (tableValue.startTime + tableValue.timer) then
                 local frame = self[tableValue.drCategory]
-
 
                 frame.Icon:SetTexture(tableValue.drTexture)
                 if tableValue.drSeverity == 2 then
@@ -462,7 +460,6 @@ function sArenaFrameMixin:OnShow()
 end
 
 function sArenaFrameMixin:OnHide()
-
     local _, instanceType = IsInInstance()
     if instanceType ~= "arena" then return end
     local frameName = self:GetName()
@@ -488,7 +485,6 @@ function sArenaFrameMixin:OnHide()
                 frame.Cooldown:SetCooldown(tableValue.startTime, tableValue.timer)
 
                 frame:Show()
-
             else
                 drTable[key] = nil
             end
@@ -593,7 +589,6 @@ function sArenaFrameMixin:GetClassAndSpec()
 		--]]
 
         _, self.class = UnitClass(self.unit)
-
     end
 
     if (not self.specTexture) then
@@ -618,10 +613,7 @@ function sArenaFrameMixin:UpdateClassIcon()
 
     self.currentClassIconTexture = texture
 
-
-    -- Could do SetPortraitTexture() since its hooked anyway in my other addon
     if (texture == "class") then
-
         self.ClassIcon:SetTexture(iconPath, true);
         self.ClassIcon:SetTexCoord(unpack(classIcons[self.class]));
         return
@@ -866,9 +858,7 @@ function sArenaMixin:Test()
     local currTime = GetTime()
 
     for i = 1, 5 do
-
         if (i == 1) then
-
             local frame = self["arena" .. i]
             UnregisterUnitWatch(frame, false)
             frame:Show()
@@ -929,9 +919,7 @@ function sArenaMixin:Test()
             frame.hideStatusText = false
             frame:SetStatusText("player")
             frame:UpdateStatusTextVisible()
-
         elseif (i == 2) then
-
             local frame = self["arena" .. i]
             UnregisterUnitWatch(frame, false)
             frame:Show()
@@ -945,7 +933,6 @@ function sArenaMixin:Test()
 
             frame.ClassIcon:SetTexture(iconPath, true);
             frame.ClassIcon:SetTexCoord(unpack(classIcons["SHAMAN"]));
-
 
             frame.SpecIcon:Show()
 
@@ -995,9 +982,7 @@ function sArenaMixin:Test()
             frame.hideStatusText = false
             frame:SetStatusText("player")
             frame:UpdateStatusTextVisible()
-
         elseif (i == 3) then
-
             local frame = self["arena" .. i]
             UnregisterUnitWatch(frame, false)
             frame:Show()
@@ -1060,9 +1045,7 @@ function sArenaMixin:Test()
             frame.hideStatusText = false
             frame:SetStatusText("player")
             frame:UpdateStatusTextVisible()
-
         elseif (i == 4) then
-
             local frame = self["arena" .. i]
             UnregisterUnitWatch(frame, false)
             frame:Show()
@@ -1076,7 +1059,6 @@ function sArenaMixin:Test()
 
             frame.ClassIcon:SetTexture(iconPath, true);
             frame.ClassIcon:SetTexCoord(unpack(classIcons["WARLOCK"]));
-
 
             frame.SpecIcon:Show()
 
@@ -1125,9 +1107,7 @@ function sArenaMixin:Test()
             frame.hideStatusText = false
             frame:SetStatusText("player")
             frame:UpdateStatusTextVisible()
-
         else
-
             local frame = self["arena" .. i]
             UnregisterUnitWatch(frame, false)
             frame:Show()
@@ -1141,7 +1121,6 @@ function sArenaMixin:Test()
 
             frame.ClassIcon:SetTexture(iconPath, true);
             frame.ClassIcon:SetTexCoord(unpack(classIcons["WARRIOR"]));
-
 
             frame.SpecIcon:Show()
 
