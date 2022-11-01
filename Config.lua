@@ -701,7 +701,7 @@ sArenaMixin.optionsTable = {
                                     get = function(info) return info.handler.db.profile.statusText.alwaysShow end,
                                     set = function(info, val)
                                         info.handler.db.profile.statusText.alwaysShow = val
-                                        for i = 1, 3 do info.handler["arena" .. i]:UpdateStatusTextVisible()
+                                        for i = 1, 5 do info.handler["arena" .. i]:UpdateStatusTextVisible()
                                         end
                                     end,
                                 },
@@ -740,7 +740,7 @@ sArenaMixin.optionsTable = {
                                     name = "Show Names",
                                     type = "toggle",
                                     get = function(info) return info.handler.db.profile.showNames end,
-                                    set = function(info, val) info.handler.db.profile.showNames = val for i = 1, 3 do info
+                                    set = function(info, val) info.handler.db.profile.showNames = val for i = 1, 5 do info
                                         .handler["arena" .. i].Name:SetShown(val) end end,
                                 },
                             },
