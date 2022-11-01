@@ -130,12 +130,6 @@ function layout:Initialize(frame)
     f:SetPoint("CENTER", frame.HealthBar, "CENTER")
     f:SetSize(32, 32)
 	
-	
-	f = frame.ArenaSlot
-	f:SetJustifyH("LEFT")
-    f:SetPoint("CENTER", frame.SpecIcon, "CENTER", 4, -2.5)
-    f:SetHeight(9)
-
     frame.HealthText:SetPoint("CENTER", frame.HealthBar)
     frame.HealthText:SetShadowOffset(0, 0)
 

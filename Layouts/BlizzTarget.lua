@@ -127,12 +127,6 @@ function layout:Initialize(frame)
     f:SetPoint("BOTTOMRIGHT", healthBar, "TOPRIGHT", -2, 4)
     f:SetHeight(12)
 	
-	
-	f = frame.ArenaSlot
-	f:SetJustifyH("LEFT")
-    f:SetPoint("CENTER", frame.SpecIcon, "CENTER", 4, -2.5)
-    f:SetHeight(9)
-
     f = frame.CastBar
     f:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
 

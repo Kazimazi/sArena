@@ -387,7 +387,6 @@ function sArenaFrameMixin:OnEvent(event, eventUnit, ...)
         self:Initialize()
     elseif (event == "PLAYER_ENTERING_WORLD") then
         self.Name:SetText("")
-        self.ArenaSlot:SetText("")
         self.CastBar:Hide()
         self.specTexture = nil
         self.class = nil
@@ -474,9 +473,7 @@ function sArenaFrameMixin:UpdatePlayer(unitEvent)
 
     self.hideStatusText = false
     self.Name:SetText(UnitName(unit))
-    self.ArenaSlot:SetText("A" .. self:GetID())
     self.Name:SetShown(db.profile.showNames)
-    self.ArenaSlot:SetShown(db.profile.showNames)
     self:UpdateStatusTextVisible()
     self:SetStatusText()
 
@@ -629,13 +626,6 @@ function sArenaFrameMixin:ResetLayout()
     f:SetScale(1)
     f:SetDrawLayer("ARTWORK", 2)
     f:SetFontObject("SystemFont_Shadow_Small2")
-
-    f = self.ArenaSlot
-    ResetFontString(f)
-    f:SetScale(1)
-    f:SetDrawLayer("ARTWORK", 2)
-    f:SetFontObject("SystemFont_Shadow_Small2")
-    --f:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
 
     f = self.HealthText
     ResetFontString(f)

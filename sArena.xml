@@ -156,7 +156,6 @@
                 <FontString parentKey="Name" inherits="GameFontNormalSmall"/>
                 <FontString parentKey="HealthText"/>
                 <FontString parentKey="PowerText"/>
-				<FontString parentKey="ArenaSlot" inherits="GameFontNormalSmall"/>
             </Layer>
 
             <Layer level="OVERLAY" textureSubLevel="2">

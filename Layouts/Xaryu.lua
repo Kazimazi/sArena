@@ -169,12 +169,6 @@ function layout:Initialize(frame)
     f:SetPoint("BOTTOMLEFT", frame.HealthBar, "TOPLEFT", 0, 0)
     f:SetPoint("BOTTOMRIGHT", frame.HealthBar, "TOPRIGHT", 0, 0)
     f:SetHeight(12)
-	
-	
-	f = frame.ArenaSlot
-	f:SetJustifyH("LEFT")
-    f:SetPoint("CENTER", frame.SpecIcon, "CENTER", 4, -2.5)
-    f:SetHeight(9)
 
     f = frame.DeathIcon
     f:ClearAllPoints()
