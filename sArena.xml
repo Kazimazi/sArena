@@ -13,6 +13,7 @@
     <Script file="Modules\DiminishingReturns.lua"/>
     <Script file="Modules\Racials.lua"/>
     <Script file="Modules\Trinkets.lua"/>
+    <Script file="Modules\Specs.lua"/>
 	<Script file="Modules\ArenaCountDown.lua"/>
     <Script file="Layouts\BlizzArena.lua"/>
     <Script file="Layouts\BlizzTourney.lua"/>

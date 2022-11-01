@@ -860,7 +860,6 @@ function sArenaMixin:Test()
             frame.ClassIcon:SetTexCoord(unpack(classIcons["SHAMAN"]));
 
             frame.SpecIcon:Show()
-
             frame.SpecIcon.Texture:SetTexture(136048)
 
             frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
@@ -922,7 +921,6 @@ function sArenaMixin:Test()
 
 
             frame.SpecIcon:Show()
-
             frame.SpecIcon.Texture:SetTexture(136041)
 
             frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
@@ -983,7 +981,6 @@ function sArenaMixin:Test()
             frame.ClassIcon:SetTexCoord(unpack(classIcons["WARLOCK"]));
 
             frame.SpecIcon:Show()
-
             frame.SpecIcon.Texture:SetTexture(136145)
 
             frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
@@ -1044,7 +1041,6 @@ function sArenaMixin:Test()
             frame.ClassIcon:SetTexCoord(unpack(classIcons["WARRIOR"]));
 
             frame.SpecIcon:Show()
-
             frame.SpecIcon.Texture:SetTexture(132355)
 
             frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
