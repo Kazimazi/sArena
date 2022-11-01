@@ -1,4 +1,4 @@
-local SPEC_AURAS = {
+sArenaMixin.specAuras = {
     -- WARRIOR
     [GetSpellInfo(56638)] = "Arms Warriror", -- Taste for Blood
     [GetSpellInfo(64976)] = "Arms Warriror", -- Juggernaut
@@ -88,7 +88,7 @@ local SPEC_AURAS = {
     [GetSpellInfo(33891)] = "Restoration Druid", -- Tree of Life
 }
 
-local SPEC_SPELLS = {
+sArenaMixin.specSpells = {
     -- WARRIOR
     [GetSpellInfo(47486)] = "Arms Warrior", -- Mortal Strike
     [GetSpellInfo(46924)] = "Arms Warrior", -- Bladestorm
@@ -166,7 +166,8 @@ local SPEC_SPELLS = {
     [GetSpellInfo(33891)] = "Restoration Druid", -- Tree of Life
     [GetSpellInfo(53251)] = "Restoration Druid", -- Wild Growth
 }
-local SPEC_TEXTURES = {
+
+sArenaMixin.specTextures = {
     ["Arms Warrior"] = "Interface\\Icons\\Ability_warrior_bladestorm",
     ["Furry Warrior"] = "Interface\\Icons\\Ability_warrior_innerrage",
     ["Protection Warrior"] = "Interface\\Icons\\Inv_shield_06",
@@ -206,4 +207,27 @@ local SPEC_TEXTURES = {
     ["Balance Druid"] = "Interface\\Icons\\Spell_nature_starfall",
     ["Feral Druid"] = "Interface\\Icons\\Ability_racial_bearform",
     ["Restoration Druid"] = "Interface\\Icons\\Spell_nature_healingtouch",
+}
+
+sArenaMixin.exceptionNames = {
+    [50334] = (GetSpellInfo(50334) or "...") .. " Feral", -- Berserk
+    [30151] = select(1, GetSpellInfo(30151)) .. " Felguard", -- Intercept
+    [30194] = select(1, GetSpellInfo(30151)) .. " Felguard", -- Intercept
+    [30198] = select(1, GetSpellInfo(30151)) .. " Felguard", -- Intercept
+    [47996] = select(1, GetSpellInfo(30151)) .. " Felguard", -- Intercept
+    [31117] = select(1, GetSpellInfo(30405)) .. " Silence", -- Unstable Affliction Silence
+    [43523] = select(1, GetSpellInfo(30405)) .. " Silence",
+    [24131] = select(1, GetSpellInfo(19386)) .. " Dot", -- Wyvern Sting Dot
+    [24134] = select(1, GetSpellInfo(19386)) .. " Dot",
+    [24135] = select(1, GetSpellInfo(19386)) .. " Dot",
+    [27069] = select(1, GetSpellInfo(19386)) .. " Dot",
+    [49009] = select(1, GetSpellInfo(19386)) .. " Dot",
+    [49010] = select(1, GetSpellInfo(19386)) .. " Dot",
+    [19975] = select(1, GetSpellInfo(27010)) .. " " .. select(1, GetSpellInfo(16689)), -- Entangling Roots Nature's Grasp
+    [19974] = select(1, GetSpellInfo(27010)) .. " " .. select(1, GetSpellInfo(16689)),
+    [19973] = select(1, GetSpellInfo(27010)) .. " " .. select(1, GetSpellInfo(16689)),
+    [19972] = select(1, GetSpellInfo(27010)) .. " " .. select(1, GetSpellInfo(16689)),
+    [19971] = select(1, GetSpellInfo(27010)) .. " " .. select(1, GetSpellInfo(16689)),
+    [27010] = select(1, GetSpellInfo(27010)) .. " " .. select(1, GetSpellInfo(16689)),
+    [53312] = select(1, GetSpellInfo(27010)) .. " " .. select(1, GetSpellInfo(16689)),
 }

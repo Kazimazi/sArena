@@ -135,7 +135,7 @@ function sArenaMixin:OnEvent(event)
             self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
         end
     elseif (event == "COMBAT_LOG_EVENT_UNFILTERED") then
-        local _, combatEvent, _, sourceGUID, _, _, _, destGUID, _, _, _, spellID, _, _, auraType = CombatLogGetCurrentEventInfo()
+        local _, combatEvent, _, sourceGUID, _, _, _, destGUID, _, _, _, spellID, spellName, _, auraType = CombatLogGetCurrentEventInfo()
 
         for i = 1, 5 do
             local ArenaFrame = self["arena" .. i]
@@ -143,9 +143,18 @@ function sArenaMixin:OnEvent(event)
             if (sourceGUID == UnitGUID("arena" .. i)) then
                 ArenaFrame:FindRacial(combatEvent, spellID)
                 ArenaFrame:FindTrinket(combatEvent, spellID)
+
+                if (not ArenaFrame.specTexture and sArenaMixin.specSpells[spellName]) then
+                    -- print("Spec defining spell: ", spellName, ", on arena", i ")
+                    local spec = self.specSpells[spellName]
+                    ArenaFrame.specTexture = self.specTextures[spec]
+                    ArenaFrame.SpecIcon.Texture:SetTexture(ArenaFrame.specTexture)
+                    ArenaFrame.SpecIcon:Show()
+                end
             end
 
             if (destGUID == UnitGUID("arena" .. i)) then
+
                 ArenaFrame:FindInterrupt(combatEvent, spellID)
 
                 if (auraType == "DEBUFF") then
@@ -446,7 +455,8 @@ end
 function sArenaFrameMixin:UpdatePlayer(unitEvent)
     local unit = self.unit
 
-    self:GetClassAndSpec()
+    self:GetClass()
+    self:GetSpec()
     self:FindAura()
 
     if ((unitEvent and unitEvent ~= "seen") or (UnitGUID(self.unit) == nil)) then
@@ -502,12 +512,22 @@ function sArenaFrameMixin:SetMysteryPlayer()
     self.DeathIcon:Hide()
 end
 
-function sArenaFrameMixin:GetClassAndSpec()
+function sArenaFrameMixin:GetClass()
+    local _, instanceType = IsInInstance()
+
+    if (instanceType ~= "arena") then
+        self.class = nil
+    elseif (not self.class and UnitGUID(self.unit)) then
+        _, self.class = UnitClass(self.unit)
+    end
+end
+
+-- FIXME: decide on what to do with it
+function sArenaFrameMixin:GetSpec()
     local _, instanceType = IsInInstance()
 
     if (instanceType ~= "arena") then
         self.specTexture = nil
-        self.class = nil
         self.SpecIcon:Hide()
     elseif (not self.class and UnitGUID(self.unit)) then
         --[[
@@ -522,9 +542,7 @@ function sArenaFrameMixin:GetClassAndSpec()
                 self.class = select(6, GetSpecializationInfoByID(specID))
             end
         end
-		--]]
-
-        _, self.class = UnitClass(self.unit)
+        --]]
     end
 
     if (not self.specTexture) then
@@ -659,9 +677,27 @@ function sArenaFrameMixin:FindAura()
         local filter = (i == 1 and "HELPFUL" or "HARMFUL")
 
         for n = 1, 30 do
-            local _, texture, _, _, duration, expirationTime, _, _, _, spellID = UnitAura(unit, n, filter)
+            local spellName, texture, _, _, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unit, n, filter)
 
             if (not spellID) then break end
+
+            if sArenaMixin.exceptionNames[spellID] then
+                local exceptionSpellName = sArenaMixin.exceptionNames[spellID]
+                print("Exception Name was: ", spellName, " corrected to: ", exceptionSpellName)
+                spellName = exceptionSpellName
+            end
+
+            -- TODO: does it work for HARMFUL auras?
+            if (not self.specTexture and sArenaMixin.specAuras[spellName] and unitCaster) then
+                -- print("Spec defining aura: ", spellName, ", on ", unit)
+                local unitPet = string.gsub(unit, "%d$", "pet%1")
+                if (UnitIsUnit(unit, unitCaster) or UnitIsUnit(unitPet, unitCaster)) then
+                    local spec = sArenaMixin.specAuras[spellName]
+                    self.specTexture = sArenaMixin.specTextures[spec]
+                    self.SpecIcon.Texture:SetTexture(self.specTexture)
+                    self.SpecIcon:Show()
+                end
+            end
 
             if (auraList[spellID]) then
                 if (not currentSpellID or auraList[spellID] < auraList[currentSpellID]) then
