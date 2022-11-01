@@ -118,6 +118,11 @@ function layout:Initialize(frame)
     specBorder:SetTexture("Interface\\CHARACTERFRAME\\TotemBorder")
     specBorder:SetPoint("TOPLEFT", frame.SpecIcon, "TOPLEFT", -5, 5)
     specBorder:SetPoint("BOTTOMRIGHT", frame.SpecIcon, "BOTTOMRIGHT", 5, -5)
+
+    specBorder.mask = frame.SpecIcon:CreateMaskTexture()
+    specBorder.mask:SetAllPoints(specBorder)
+    specBorder.mask:SetTexture("Interface\\CHARACTERFRAME\\TempPortraitAlphaMask")
+    specBorder:AddMaskTexture(specBorder.mask)
     specBorder:Show()
 
     f = frame.Name
