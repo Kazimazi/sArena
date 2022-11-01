@@ -41,6 +41,7 @@
                 <Scripts>
                     <OnLoad>
                         self:SetDrawBling(false)
+                        self:SetReverse(true)
                         for _, region in next, { self:GetRegions() } do
                             if region:GetObjectType() == "FontString" then
                                 self.Text = region;
@@ -214,120 +215,12 @@
             <OnLoad method="OnLoad"/>
             <OnEnter method="OnEnter"/>
             <OnLeave method="OnLeave"/>
-			<OnShow method="OnShow"/>
-            <OnHide method="OnHide"/>
         </Scripts>
     </Button>
 
-	<Frame name="sArenaDummyFrameTemplate" frameStrata="MEDIUM" frameLevel="3" hidden="true" virtual="true" mixin="sArenaFrameMixin">
-        <Layers>
-            <Layer level="BORDER" textureSubLevel="1">
-                <!-- Health/power bar is in this layer -->
-                <Texture parentKey="ClassIcon"/>
-                <MaskTexture parentKey="ClassIconMask" file="Interface\CharacterFrame\TempPortraitAlphaMask"/>
-            </Layer>
-
-
-            <Layer level="ARTWORK" textureSubLevel="3">
-                <FontString parentKey="Name" inherits="GameFontNormalSmall"/>
-                <FontString parentKey="HealthText"/>
-                <FontString parentKey="PowerText"/>
-				<FontString parentKey="ArenaSlot" inherits="GameFontNormalSmall"/>
-            </Layer>
-
-            <Layer level="OVERLAY" textureSubLevel="2">
-                <Texture parentKey="DeathIcon" atlas="DeathIcon" hidden="true">
-                    <TexCoords left="0" right="1" top="0" bottom="0.5"/>
-                </Texture>
-            </Layer>
-        </Layers>
-
-        <Frames>
-            <StatusBar parentKey="HealthBar" drawLayer="BORDER" useParentLevel="true"/>
-            <StatusBar parentKey="PowerBar" drawLayer="BORDER" useParentLevel="true"/>
-            <StatusBar parentKey="CastBar" inherits="sArenaCastBarTemplate"/>
-            <Cooldown parentKey="ClassIconCooldown" drawLayer="BORDER" useParentLevel="true" reverse="true" hideCountdownNumbers="false" inherits="CooldownFrameTemplate">
-                <Scripts>
-                    <OnLoad>
-                        for _, region in next, { self:GetRegions() } do
-                            if region:GetObjectType() == "FontString" then
-                                self.Text = region;
-                                self.Text.fontFile = region:GetFont();
-                            end
-                        end
-                        self:SetAllPoints(self:GetParent().ClassIcon)
-                        self:SetSwipeTexture(1)
-                        self:SetSwipeColor(0, 0, 0, 0.6)
-                        self:SetDrawBling(false)
-                    </OnLoad>
-                </Scripts>
-            </Cooldown>
-            <Frame parentKey="SpecIcon" enablemouse="true" movable="true">
-                <Layers>
-                    <Layer level="ARTWORK" textureSubLevel="2">
-                        <Texture parentKey="Texture" setAllPoints="true"/>
-                        <MaskTexture parentKey="Mask" setAllPoints="true" file="Interface\CharacterFrame\TempPortraitAlphaMask"/>
-                    </Layer>
-                </Layers>
-            </Frame>
-            <Frame parentKey="Trinket" inherits="sArenaIconTemplate"/>
-            <Frame parentKey="Racial" inherits="sArenaIconTemplate"/>
-
-            <Frame parentKey="Incapacitate" inherits="sArenaDRTrackerTemplate"/>
-         
-            <Frame parentKey="Disorient" inherits="sArenaDRTrackerTemplate"/>
-            <Frame parentKey="Stun" inherits="sArenaDRTrackerTemplate" enablemouse="true" movable="true"/>
-            <Frame parentKey="Root" inherits="sArenaDRTrackerTemplate"/>
-			
-			<Frame parentKey="DisorientSmall" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="Disarm" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="Charm" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="Horror" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="Fear" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="KidneyShot" inherits="sArenaDRTrackerTemplate"/>
-        </Frames>
-		
-		<Scripts>
-            <OnEvent method="OnEvent"/>
-            <OnLoad method="OnLoad"/>
-        </Scripts>
-    </Frame>
-
-
-
     <Frame name="sArena" mixin="sArenaMixin" movable="true" parent="UIParent">
         <Size x="1" y="1"/>
-			<Frames>
-						<Frame name="sArenaEnemyFrame1Dummy" parentKey="arenaDummy1" inherits="sArenaDummyFrameTemplate" id="1">
-				<Anchors>
-					<Anchor point="CENTER"/>
-				</Anchors>
-			</Frame>
-			<Frame name="sArenaEnemyFrame2Dummy" parentKey="arenaDummy2" inherits="sArenaDummyFrameTemplate" id="2" >
-				<Anchors>
-					<Anchor point="CENTER"/>
-				</Anchors>
-			</Frame>
-			
-			<Frame name="sArenaEnemyFrame3Dummy" parentKey="arenaDummy3" inherits="sArenaDummyFrameTemplate" id="3" >
-				<Anchors>
-					<Anchor point="CENTER" relativePoint ="sArenaEnemyFrame3"/>
-				</Anchors>
-			</Frame>
-			
-			<Frame name="sArenaEnemyFrame4Dummy" parentKey="arenaDummy4" inherits="sArenaDummyFrameTemplate" id="4" >
-				<Anchors>
-					<Anchor point="CENTER"/>
-				</Anchors>
-			</Frame>
-			
-			<Frame name="sArenaEnemyFrame5Dummy" parentKey="arenaDummy5" inherits="sArenaDummyFrameTemplate" id="5" >
-				<Anchors>
-					<Anchor point="CENTER"/>
-				</Anchors>
-			</Frame>
-
-			
+        <Frames>
             <Button name="sArenaEnemyFrame1" parentKey="arena1" inherits="sArenaEnemyFrameTemplate" id="1">
                 <Anchors>
                     <Anchor point="CENTER"/>

@@ -71,9 +71,10 @@ local function UpdateBlizzVisibility(instanceType)
     -- hide blizz arena frames while in arena
     if (InCombatLockdown()) then return end
     if (not IsAddOnLoaded("Blizzard_ArenaUI")) then
-        LoadAddOn("Blizzard_ArenaUI")
+        -- LoadAddOn("Blizzard_ArenaUI")
         return
     end
+    if (IsAddOnLoaded("ElvUI")) then return end
 
     if (not blizzFrame) then
         blizzFrame = CreateFrame("Frame", nil, UIParent)
@@ -130,12 +131,8 @@ function sArenaMixin:OnEvent(event)
 
         if (instanceType == "arena") then
             self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-            if (InCombatLockdown()) then return end
-            self:Show()
         else
             self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-            if (InCombatLockdown()) then return end
-            self:Hide()
         end
     elseif (event == "COMBAT_LOG_EVENT_UNFILTERED") then
         local _, combatEvent, _, sourceGUID, _, _, _, destGUID, _, _, _, spellID, _, _, auraType = CombatLogGetCurrentEventInfo()
@@ -158,21 +155,6 @@ function sArenaMixin:OnEvent(event)
                 return
             end
         end
-
-        for i = 1, 5 do
-            local ArenaDummyFrame = self["arenaDummy" .. i]
-
-            if (sourceGUID == UnitGUID("arena" .. i)) then
-                ArenaDummyFrame:FindRacial(combatEvent, spellID)
-                ArenaDummyFrame:FindTrinket(combatEvent, spellID)
-            end
-
-            if (destGUID == UnitGUID("arena" .. i)) then
-                ArenaDummyFrame:FindInterrupt(combatEvent, spellID)
-                return
-            end
-        end
-
     end
 end
 
@@ -217,13 +199,9 @@ function sArenaMixin:SetLayout(_, layout)
 
     for i = 1, 5 do
         local frame = self["arena" .. i]
-        local dummyFrame = self["arenaDummy" .. i]
         frame:ResetLayout()
-        dummyFrame:ResetLayout()
         self.layouts[layout]:Initialize(frame)
-        self.layouts[layout]:Initialize(dummyFrame)
         frame:UpdatePlayer()
-        dummyFrame:UpdatePlayer()
     end
 
     self.optionsTable.args.layoutSettingsGroup.args = self.layouts[layout].optionsTable and
@@ -278,15 +256,13 @@ function sArenaMixin:SetupDrag(frameToClick, frameToMove, settingsTable, updateM
 end
 
 function sArenaMixin:SetMouseState(state)
-    if not string.find(self:GetName(), "Dummy") then
-        for i = 1, 5 do
-            local frame = self["arena" .. i]
-            frame.CastBar:EnableMouse(state)
-            frame.Stun:EnableMouse(state)
-            frame.SpecIcon:EnableMouse(state)
-            frame.Trinket:EnableMouse(state)
-            frame.Racial:EnableMouse(state)
-        end
+    for i = 1, 5 do
+        local frame = self["arena" .. i]
+        frame.CastBar:EnableMouse(state)
+        frame.Stun:EnableMouse(state)
+        frame.SpecIcon:EnableMouse(state)
+        frame.Trinket:EnableMouse(state)
+        frame.Racial:EnableMouse(state)
     end
 end
 
@@ -312,6 +288,8 @@ function sArenaFrameMixin:OnLoad()
 
     self.parent = self:GetParent()
 
+    RegisterUnitWatch(self, false)
+
     self:RegisterEvent("PLAYER_LOGIN")
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
     self:RegisterEvent("UNIT_NAME_UPDATE")
@@ -326,13 +304,10 @@ function sArenaFrameMixin:OnLoad()
     self:RegisterUnitEvent("UNIT_AURA", unit)
 
 
-    if not string.find(self:GetName(), "Dummy") then
-        RegisterUnitWatch(self, false)
-        self:RegisterForClicks("AnyUp")
-        self:SetAttribute("*type1", "target")
-        self:SetAttribute("*type2", "focus")
-        self:SetAttribute("unit", unit)
-    end
+    self:RegisterForClicks("AnyUp")
+    self:SetAttribute("*type1", "target")
+    self:SetAttribute("*type2", "focus")
+    self:SetAttribute("unit", unit)
     self.unit = unit
 
     CastingBarFrame_SetUnit(self.CastBar, unit, false, true)
@@ -432,10 +407,6 @@ end
 function sArenaFrameMixin:OnShow()
     local frameName = self:GetName()
     local drTable = self.parent.activeDRs[frameName]
-    local dummyFrame = _G[self:GetName() .. "Dummy"]
-
-    dummyFrame:Hide()
-    dummyFrame:ClearAllPoints()
 
     if drTable then
         for key, tableValue in pairs(drTable) do
@@ -470,40 +441,6 @@ function sArenaFrameMixin:OnLeave()
     UnitFrame_OnLeave(self)
 
     self:UpdateStatusTextVisible()
-end
-
-function sArenaFrameMixin:OnHide()
-    local _, instanceType = IsInInstance()
-    if instanceType ~= "arena" then return end
-    local frameName = self:GetName()
-    local drTable = self.parent.activeDRs[frameName]
-    local dummyFrame = _G[self:GetName() .. "Dummy"]
-
-    dummyFrame:Show()
-    dummyFrame:SetAllPoints(self)
-
-    if drTable then
-        for key, tableValue in pairs(drTable) do
-            local currTime = GetTime()
-            if currTime < (tableValue.startTime + tableValue.timer) then
-                local frame = dummyFrame[tableValue.drCategory]
-
-                frame.Icon:SetTexture(tableValue.drTexture)
-
-                if tableValue.drSeverity == 2 then
-                    frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity - 1]))
-                else
-                    frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity]))
-                end
-                frame.Cooldown:SetCooldown(tableValue.startTime, tableValue.timer)
-
-                frame:Show()
-            else
-                drTable[key] = nil
-            end
-        end
-    end
-
 end
 
 function sArenaFrameMixin:UpdatePlayer(unitEvent)
@@ -840,18 +777,10 @@ function sArenaFrameMixin:UpdateStatusTextVisible()
     self.PowerText:SetShown(db.profile.statusText.alwaysShow)
 end
 
-function sArenaMixin:HideAll(info)
-    for i = 1, 5 do
-        info.handler["arena" .. i]:OnEvent("PLAYER_ENTERING_WORLD")
-        RegisterUnitWatch(info.handler["arena" .. i], false)
-    end
-end
-
 function sArenaMixin:Test()
     local _, instanceType = IsInInstance()
     if (InCombatLockdown() or instanceType == "arena") then return end
 
-    self:Show();
     local currTime = GetTime()
 
     for i = 1, 5 do
@@ -869,13 +798,12 @@ function sArenaMixin:Test()
 
             frame.ClassIcon:SetTexture(iconPath, true);
             frame.ClassIcon:SetTexCoord(unpack(classIcons["DEATHKNIGHT"]));
-            frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
 
             frame.SpecIcon:Show()
             frame.SpecIcon.Texture:SetTexture(132222)
 
-            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-            frame.Name:SetText("Ruddy")
+            frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
+            frame.Name:SetText("arena" .. i)
             frame.Name:SetShown(db.profile.showNames)
 
             frame.Trinket.Texture:SetTexture(133453)
@@ -892,7 +820,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-            for n = 1, #self.drCategories do
+            for n = 1, 4 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(136071)
@@ -936,8 +864,7 @@ function sArenaMixin:Test()
             frame.SpecIcon.Texture:SetTexture(136048)
 
             frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
-            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-            frame.Name:SetText("Aeded")
+            frame.Name:SetText("arena" .. i)
             frame.Name:SetShown(db.profile.showNames)
 
             frame.Trinket.Texture:SetTexture(133453)
@@ -954,7 +881,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-            for n = 1, #self.drCategories do
+            for n = 1, 4 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(136175)
@@ -1000,8 +927,7 @@ function sArenaMixin:Test()
             frame.SpecIcon.Texture:SetTexture(136041)
 
             frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
-            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-            frame.Name:SetText("Peterparkour")
+            frame.Name:SetText("arena" .. i)
             frame.Name:SetShown(db.profile.showNames)
 
             frame.Trinket.Texture:SetTexture(133453)
@@ -1018,7 +944,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-            for n = 1, #self.drCategories do
+            for n = 1, 4 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(132298)
@@ -1062,8 +988,7 @@ function sArenaMixin:Test()
             frame.SpecIcon.Texture:SetTexture(136145)
 
             frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
-            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-            frame.Name:SetText("Tazar")
+            frame.Name:SetText("arena" .. i)
             frame.Name:SetShown(db.profile.showNames)
 
             frame.Trinket.Texture:SetTexture(133453)
@@ -1080,7 +1005,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-            for n = 1, #self.drCategories do
+            for n = 1, 4 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(132298)
@@ -1124,8 +1049,7 @@ function sArenaMixin:Test()
             frame.SpecIcon.Texture:SetTexture(132355)
 
             frame.ClassIconCooldown:SetCooldown(GetTime(), math.random(20, 60))
-            frame.Name:SetFont("Fonts\\FRIZQT__.TTF", 8.5, "THIN")
-            frame.Name:SetText("Klimpb")
+            frame.Name:SetText("arena" .. i)
             frame.Name:SetShown(db.profile.showNames)
 
             frame.Trinket.Texture:SetTexture(133453)
@@ -1142,7 +1066,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(170 / 255, 10 / 255, 10 / 255)
 
-            for n = 1, #self.drCategories do
+            for n = 1, 4 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(132298)

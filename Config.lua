@@ -518,26 +518,9 @@ function sArenaMixin:UpdateFrameSettings(db, info, val)
         text:SetFont(text.fontFile, db.classIconFontSize, "OUTLINE")
     end
 
-    for i = 1, 5 do
-        local text = self["arenaDummy" .. i].ClassIconCooldown.Text
-        text:SetFont(text.fontFile, db.classIconFontSize, "OUTLINE")
-    end
-
     for i = 2, 5 do
         local frame = self["arena" .. i]
         local prevFrame = self["arena" .. i - 1]
-
-        frame:ClearAllPoints()
-        if (growthDirection == 1) then frame:SetPoint("TOP", prevFrame, "BOTTOM", 0, -spacing)
-        elseif (growthDirection == 2) then frame:SetPoint("BOTTOM", prevFrame, "TOP", 0, spacing)
-        elseif (growthDirection == 3) then frame:SetPoint("LEFT", prevFrame, "RIGHT", spacing, 0)
-        elseif (growthDirection == 4) then frame:SetPoint("RIGHT", prevFrame, "LEFT", -spacing, 0)
-        end
-    end
-
-    for i = 2, 5 do
-        local frame = self["arenaDummy" .. i]
-        local prevFrame = self["arenaDummy" .. i - 1]
 
         frame:ClearAllPoints()
         if (growthDirection == 1) then frame:SetPoint("TOP", prevFrame, "BOTTOM", 0, -spacing)
@@ -555,15 +538,6 @@ function sArenaMixin:UpdateCastBarSettings(db, info, val)
 
     for i = 1, 5 do
         local frame = self["arena" .. i]
-
-        frame.CastBar:ClearAllPoints()
-        frame.CastBar:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
-        frame.CastBar:SetScale(db.scale)
-        frame.CastBar:SetWidth(db.width)
-    end
-
-    for i = 1, 5 do
-        local frame = self["arenaDummy" .. i]
 
         frame.CastBar:ClearAllPoints()
         frame.CastBar:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
@@ -605,21 +579,6 @@ function sArenaMixin:UpdateDRSettings(db, info, val)
             text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
         end
     end
-    for i = 1, 5 do
-        local frame = self["arenaDummy" .. i]
-        frame:UpdateDRPositions()
-
-        for n = 1, #categories do
-            local dr = frame[categories[n]]
-
-            dr:SetSize(db.size, db.size)
-            dr.Border:SetPoint("TOPLEFT", dr, "TOPLEFT", -db.borderSize, db.borderSize)
-            dr.Border:SetPoint("BOTTOMRIGHT", dr, "BOTTOMRIGHT", db.borderSize, -db.borderSize)
-
-            local text = dr.Cooldown.Text
-            text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
-        end
-    end
 end
 
 function sArenaMixin:UpdateSpecIconSettings(db, info, val)
@@ -629,14 +588,6 @@ function sArenaMixin:UpdateSpecIconSettings(db, info, val)
 
     for i = 1, 5 do
         local frame = self["arena" .. i]
-
-        frame.SpecIcon:ClearAllPoints()
-        frame.SpecIcon:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
-        frame.SpecIcon:SetScale(db.scale)
-    end
-
-    for i = 1, 5 do
-        local frame = self["arenaDummy" .. i]
 
         frame.SpecIcon:ClearAllPoints()
         frame.SpecIcon:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
@@ -659,17 +610,6 @@ function sArenaMixin:UpdateTrinketSettings(db, info, val)
         local text = self["arena" .. i].Trinket.Cooldown.Text
         text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
     end
-
-    for i = 1, 5 do
-        local frame = self["arenaDummy" .. i]
-
-        frame.Trinket:ClearAllPoints()
-        frame.Trinket:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
-        frame.Trinket:SetScale(db.scale)
-
-        local text = self["arena" .. i].Trinket.Cooldown.Text
-        text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
-    end
 end
 
 function sArenaMixin:UpdateRacialSettings(db, info, val)
@@ -679,17 +619,6 @@ function sArenaMixin:UpdateRacialSettings(db, info, val)
 
     for i = 1, 5 do
         local frame = self["arena" .. i]
-
-        frame.Racial:ClearAllPoints()
-        frame.Racial:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
-        frame.Racial:SetScale(db.scale)
-
-        local text = self["arena" .. i].Racial.Cooldown.Text
-        text:SetFont(text.fontFile, db.fontSize, "OUTLINE")
-    end
-
-    for i = 1, 5 do
-        local frame = self["arenaDummy" .. i]
 
         frame.Racial:ClearAllPoints()
         frame.Racial:SetPoint("CENTER", frame, "CENTER", db.posX, db.posY)
@@ -725,7 +654,11 @@ sArenaMixin.optionsTable = {
             order = 3,
             name = "Hide",
             type = "execute",
-            func = "HideAll",
+            func = function(info)
+                for i = 1, 5 do info.handler["arena" .. i]:OnEvent("PLAYER_ENTERING_WORLD")
+                    RegisterUnitWatch(info.handler["arena" .. i], false)
+                end
+            end,
             width = "half",
         },
         dragNotice = {
