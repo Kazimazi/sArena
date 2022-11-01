@@ -196,18 +196,23 @@
             <Frame parentKey="Trinket" inherits="sArenaIconTemplate"/>
             <Frame parentKey="Racial" inherits="sArenaIconTemplate"/>
 
-            <Frame parentKey="Incapacitate" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="incapacitate" inherits="sArenaDRTrackerTemplate" enablemouse="true" movable="true"/>
          
-            <Frame parentKey="Disorient" inherits="sArenaDRTrackerTemplate"/>
-            <Frame parentKey="Stun" inherits="sArenaDRTrackerTemplate" enablemouse="true" movable="true"/>
-            <Frame parentKey="Root" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="stun" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="random_stun" inherits="sArenaDRTrackerTemplate" enablemouse="true" movable="true"/>
+            <Frame parentKey="random_root" inherits="sArenaDRTrackerTemplate"/>
 			
-			<Frame parentKey="DisorientSmall" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="Disarm" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="Charm" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="Horror" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="Fear" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="KidneyShot" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="root" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="disarm" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="fear" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="scatter" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="silence" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="horror" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="mind_control" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="cyclone" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="charge" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="opener_stun" inherits="sArenaDRTrackerTemplate"/>
+			<Frame parentKey="counterattack" inherits="sArenaDRTrackerTemplate"/>
         </Frames>
 
         <Scripts>

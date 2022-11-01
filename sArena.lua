@@ -259,7 +259,7 @@ function sArenaMixin:SetMouseState(state)
     for i = 1, 5 do
         local frame = self["arena" .. i]
         frame.CastBar:EnableMouse(state)
-        frame.Stun:EnableMouse(state)
+        frame.incapacitate:EnableMouse(state)
         frame.SpecIcon:EnableMouse(state)
         frame.Trinket:EnableMouse(state)
         frame.Racial:EnableMouse(state)
@@ -398,7 +398,7 @@ function sArenaFrameMixin:Initialize()
     self:SetMysteryPlayer()
     self.parent:SetupDrag(self, self.parent, nil, "UpdateFrameSettings")
     self.parent:SetupDrag(self.CastBar, self.CastBar, "castBar", "UpdateCastBarSettings")
-    self.parent:SetupDrag(self.Stun, self.Stun, "dr", "UpdateDRSettings")
+    self.parent:SetupDrag(self.incapacitate, self.incapacitate, "dr", "UpdateDRSettings")
     self.parent:SetupDrag(self.SpecIcon, self.SpecIcon, "specIcon", "UpdateSpecIconSettings")
     self.parent:SetupDrag(self.Trinket, self.Trinket, "trinket", "UpdateTrinketSettings")
     self.parent:SetupDrag(self.Racial, self.Racial, "racial", "UpdateRacialSettings")
@@ -812,7 +812,7 @@ function sArenaMixin:Test()
             frame.Racial.Texture:SetTexture(136225)
             frame.Racial.Cooldown:SetCooldown(currTime, math.random(20, 60))
 
-            local color = RAID_CLASS_COLORS["HUNTER"]
+            local color = RAID_CLASS_COLORS["DEATHKNIGHT"]
             if (db.profile.classColors) then
                 frame.HealthBar:SetStatusBarColor(color.r, color.g, color.b, 1)
             else
@@ -820,7 +820,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-            for n = 1, 4 do
+            for n = 1, 5 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(136071)
@@ -881,7 +881,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-            for n = 1, 4 do
+            for n = 1, 5 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(136175)
@@ -893,7 +893,6 @@ function sArenaMixin:Test()
                 else
                     drFrame.Border:SetVertexColor(0, 1, 0, 1)
                 end
-                n = n + 1;
             end
 
             frame.CastBar.fadeOut = nil
@@ -944,7 +943,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-            for n = 1, 4 do
+            for n = 1, 5 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(132298)
@@ -1005,7 +1004,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(0, 0, 1, 1)
 
-            for n = 1, 4 do
+            for n = 1, 5 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(132298)
@@ -1066,7 +1065,7 @@ function sArenaMixin:Test()
             end
             frame.PowerBar:SetStatusBarColor(170 / 255, 10 / 255, 10 / 255)
 
-            for n = 1, 4 do
+            for n = 1, 5 do
                 local drFrame = frame[self.drCategories[n]]
 
                 drFrame.Icon:SetTexture(132298)

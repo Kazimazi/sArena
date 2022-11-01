@@ -18,18 +18,21 @@ end
 
 local growthValues = { "Down", "Up", "Right", "Left" }
 local drCategories = {
-
-    ["Stun"] = "Stun",
-    ["KidneyShot"] = "KidneyShot",
-    ["Incapacitate"] = "Incapacitate",
-    ["Fear"] = "Fear",
-    ["Horror"] = "Horror",
-    ["Charm"] = "Charm",
-    ["Disorient"] = "Disorient",
-    ["Disarm"] = "Disarm",
-    ["DisorientSmall"] = "DisorientSmall",
-    ["Root"] = "Root",
-
+    ["incapacitate"] = "incapacitate",
+    ["stun"] = "stun",
+    ["random_stun"] = "random_stun",
+    ["random_root"] = "random_root",
+    ["root"] = "root",
+    ["disarm"] = "disarm",
+    ["fear"] = "fear",
+    ["scatter"] = "scatter",
+    ["silence"] = "silence",
+    ["horror"] = "horror",
+    ["mind_control"] = "mind_control",
+    ["cyclone"] = "cyclone",
+    ["charge"] = "charge",
+    ["opener_stun"] = "opener_stun",
+    ["counterattack"] = "counterattack",
 }
 local racialCategories = {
     ["Human"] = "Human",
@@ -404,8 +407,7 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             name = "Diminishing Returns",
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].dr[info[#info]] end,
-            set = function(info, val) self:UpdateDRSettings(info.handler.db.profile.layoutSettings[layoutName].dr, info,
-                val) end,
+            set = function(info, val) self:UpdateDRSettings(info.handler.db.profile.layoutSettings[layoutName].dr, info, val) end,
             args = {
                 positioning = {
                     order = 1,
@@ -548,16 +550,21 @@ end
 
 function sArenaMixin:UpdateDRSettings(db, info, val)
     local categories = {
-        "Stun",
-        "KidneyShot",
-        "Incapacitate",
-        "Fear",
-        "Horror",
-        "Charm",
-        "Disorient",
-        "Disarm",
-        "DisorientSmall",
-        "Root",
+        "incapacitate",
+        "stun",
+        "random_stun",
+        "random_root",
+        "root",
+        "disarm",
+        "fear",
+        "scatter",
+        "silence",
+        "horror",
+        "mind_control",
+        "cyclone",
+        "charge",
+        "opener_stun",
+        "counterattack",
     }
 
     if (val) then
