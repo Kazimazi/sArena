@@ -53,8 +53,8 @@ end
 local function setSetting(info, val)
     layout.db[info[#info]] = val
 
-    for i = 1,5 do
-        local frame = info.handler["arena"..i]
+    for i = 1, 5 do
+        local frame = info.handler["arena" .. i]
         layout:UpdateOrientation(frame)
     end
 end
@@ -75,11 +75,11 @@ end
 function layout:Initialize(frame)
     self.db = frame.parent.db.profile.layoutSettings[layoutName]
 
-    if ( not self.optionsTable ) then
+    if (not self.optionsTable) then
         setupOptionsTable(frame.parent)
     end
 
-    if ( frame:GetID() == 5 ) then
+    if (frame:GetID() == 5) then
         frame.parent:UpdateCastBarSettings(self.db.castBar)
         frame.parent:UpdateDRSettings(self.db.dr)
         frame.parent:UpdateFrameSettings(self.db)
@@ -129,7 +129,7 @@ function layout:Initialize(frame)
     f:ClearAllPoints()
     f:SetPoint("CENTER", frame.HealthBar, "CENTER")
     f:SetSize(32, 32)
-	
+
     frame.HealthText:SetPoint("CENTER", frame.HealthBar)
     frame.HealthText:SetShadowOffset(0, 0)
 
@@ -144,8 +144,8 @@ function layout:Initialize(frame)
     underlay:Show()
 
     local id = frame:GetID()
-    layout["frameTexture"..id] = frame.TexturePool:Acquire()
-    local frameTexture = layout["frameTexture"..id]
+    layout["frameTexture" .. id] = frame.TexturePool:Acquire()
+    local frameTexture = layout["frameTexture" .. id]
     frameTexture:SetDrawLayer("ARTWORK", 2)
     frameTexture:SetSize(160, 80)
     frameTexture:SetAtlas("UnitFrame")
@@ -155,7 +155,7 @@ function layout:Initialize(frame)
 end
 
 function layout:UpdateOrientation(frame)
-    local frameTexture = layout["frameTexture"..frame:GetID()]
+    local frameTexture = layout["frameTexture" .. frame:GetID()]
     local healthBar = frame.HealthBar
     local powerBar = frame.PowerBar
     local classIcon = frame.ClassIcon
@@ -168,7 +168,7 @@ function layout:UpdateOrientation(frame)
     classIconMask:ClearAllPoints()
     name:ClearAllPoints()
 
-    if ( self.db.mirrored ) then
+    if (self.db.mirrored) then
         frameTexture:SetTexCoord(1, 0, 0, 1)
         frameTexture:SetPoint("TOPLEFT", frame, "TOPLEFT", -26, 6)
 
