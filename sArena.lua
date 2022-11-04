@@ -671,21 +671,25 @@ function sArenaFrameMixin:FindAura()
 
             if (not spellID) then break end
 
-            if sArenaMixin.exceptionNames[spellID] then
-                local exceptionSpellName = sArenaMixin.exceptionNames[spellID]
-                print("Exception Name was: ", spellName, " corrected to: ", exceptionSpellName)
-                spellName = exceptionSpellName
-            end
-
             -- TODO: does it work for HARMFUL auras?
-            if (not self.specTexture and sArenaMixin.specAuras[spellName] and unitCaster) then
-                -- print("Spec defining aura: ", spellName, ", on ", unit)
-                local unitPet = string.gsub(unit, "%d$", "pet%1")
-                if (UnitIsUnit(unit, unitCaster) or UnitIsUnit(unitPet, unitCaster)) then
-                    local spec = sArenaMixin.specAuras[spellName]
-                    self.specTexture = sArenaMixin.specTextures[spec]
-                    self.SpecIcon.Texture:SetTexture(self.specTexture)
-                    self.SpecIcon:Show()
+            if (not self.specTexture and unitCaster) then
+                local exceptionSpellName
+
+                if sArenaMixin.exceptionNames[spellID] then
+                    exceptionSpellName = sArenaMixin.exceptionNames[spellID]
+                    print("Exception Name was: ", spellName, " corrected to: ", exceptionSpellName)
+                    spellName = exceptionSpellName
+                end
+
+                if (sArenaMixin.specAuras[spellName]) then
+                    -- print("Spec defining aura: ", spellName, ", on ", unit)
+                    local unitPet = string.gsub(unit, "%d$", "pet%1")
+                    if (UnitIsUnit(unit, unitCaster) or UnitIsUnit(unitPet, unitCaster)) then
+                        local spec = sArenaMixin.specAuras[spellName]
+                        self.specTexture = sArenaMixin.specTextures[spec]
+                        self.SpecIcon.Texture:SetTexture(self.specTexture)
+                        self.SpecIcon:Show()
+                    end
                 end
             end
 
