@@ -1,13 +1,13 @@
 sArenaMixin.specAuras = {
     -- WARRIOR
-    [GetSpellInfo(56638)] = "Arms Warriror", -- Taste for Blood
-    [GetSpellInfo(64976)] = "Arms Warriror", -- Juggernaut
-    [GetSpellInfo(57522)] = "Arms Warriror", -- Enrage
-    [GetSpellInfo(52437)] = "Arms Warriror", -- Sudden Death
-    [GetSpellInfo(46857)] = "Arms Warriror", -- Trauma
-    [GetSpellInfo(56112)] = "Fury Warriror", -- Furious Attacks
-    [GetSpellInfo(29801)] = "Fury Warriror", -- Rampage
-    [GetSpellInfo(46916)] = "Fury Warriror", -- Slam!
+    [GetSpellInfo(56638)] = "Arms Warrior", -- Taste for Blood
+    [GetSpellInfo(64976)] = "Arms Warrior", -- Juggernaut
+    [GetSpellInfo(57522)] = "Arms Warrior", -- Enrage
+    [GetSpellInfo(52437)] = "Arms Warrior", -- Sudden Death
+    [GetSpellInfo(46857)] = "Arms Warrior", -- Trauma
+    [GetSpellInfo(56112)] = "Fury Warrior", -- Furious Attacks
+    [GetSpellInfo(29801)] = "Fury Warrior", -- Rampage
+    [GetSpellInfo(46916)] = "Fury Warrior", -- Slam!
     [GetSpellInfo(50227)] = "Protection Warrior", -- Sword and Board
     [GetSpellInfo(50720)] = "Protection Warrior", -- Vigilance
     [GetSpellInfo(74347)] = "Protection Warrior", -- Silenced - Gag Order
