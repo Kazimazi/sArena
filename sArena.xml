@@ -14,7 +14,7 @@
     <Script file="Modules\Racials.lua"/>
     <Script file="Modules\Trinkets.lua"/>
     <Script file="Modules\Specs.lua"/>
-	<Script file="Modules\ArenaCountDown.lua"/>
+    <Script file="Modules\ArenaCountDown.lua"/>
     <Script file="Layouts\BlizzArena.lua"/>
     <Script file="Layouts\BlizzTourney.lua"/>
     <Script file="Layouts\BlizzTarget.lua"/>
@@ -26,7 +26,7 @@
             <Layer level="OVERLAY">
                 <Texture parentKey="Border" file="Interface\Buttons\UI-Quickslot-Depress"/>
             </Layer>
-            
+
             <Layer level="ARTWORK">
                 <Texture parentKey="Icon">
                     <TexCoords left="0.08" right="0.92" top="0.08" bottom="0.92"/>
@@ -101,8 +101,8 @@
                         <Anchor point="CENTER"/>
                     </Anchors>
                 </Texture>
-                <Texture parentKey="Flash" alphaMode="ADD"> 
-                    <!-- this needs to be here so the generic unit frame code will work right --> 
+                <Texture parentKey="Flash" alphaMode="ADD">
+                    <!-- this needs to be here so the generic unit frame code will work right -->
                     <Size x="256" y="64"/>
                     <Anchors>
                         <Anchor point="TOP" x="0" y="28"/>
@@ -197,22 +197,20 @@
             <Frame parentKey="Racial" inherits="sArenaIconTemplate"/>
 
             <Frame parentKey="incapacitate" inherits="sArenaDRTrackerTemplate" enablemouse="true" movable="true"/>
-         
             <Frame parentKey="stun" inherits="sArenaDRTrackerTemplate"/>
-            <Frame parentKey="random_stun" inherits="sArenaDRTrackerTemplate" enablemouse="true" movable="true"/>
+            <Frame parentKey="random_stun" inherits="sArenaDRTrackerTemplate"/>
             <Frame parentKey="random_root" inherits="sArenaDRTrackerTemplate"/>
-			
-			<Frame parentKey="root" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="disarm" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="fear" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="scatter" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="silence" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="horror" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="mind_control" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="cyclone" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="charge" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="opener_stun" inherits="sArenaDRTrackerTemplate"/>
-			<Frame parentKey="counterattack" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="root" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="disarm" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="fear" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="scatter" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="silence" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="horror" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="mind_control" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="cyclone" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="charge" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="opener_stun" inherits="sArenaDRTrackerTemplate"/>
+            <Frame parentKey="counterattack" inherits="sArenaDRTrackerTemplate"/>
         </Frames>
 
         <Scripts>
