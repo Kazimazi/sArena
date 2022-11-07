@@ -832,6 +832,13 @@ sArenaMixin.optionsTable = {
                                         end
                                     end,
                                 },
+                                showUnitId = {
+                                    order = 3,
+                                    name = "Show UnitId",
+                                    type = "toggle",
+                                    get = function(info) return info.handler.db.profile.showUnitId end,
+                                    set = function(info, val) info.handler.db.profile.showUnitId = val end,
+                                },
                             },
                         },
                     },
