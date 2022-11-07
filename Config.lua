@@ -55,7 +55,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName][info[#info]] end,
             set = function(info, val) self:UpdateFrameSettings(info.handler.db.profile.layoutSettings[layoutName], info,
-                val) end,
+                    val)
+            end,
             args = {
                 positioning = {
                     order = 1,
@@ -138,7 +139,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].specIcon[info[#info]] end,
             set = function(info, val) self:UpdateSpecIconSettings(info.handler.db.profile.layoutSettings[layoutName].specIcon
-                , info, val) end,
+                    , info, val)
+            end,
             args = {
                 positioning = {
                     order = 1,
@@ -198,7 +200,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].trinket[info[#info]] end,
             set = function(info, val) self:UpdateTrinketSettings(info.handler.db.profile.layoutSettings[layoutName].trinket
-                , info, val) end,
+                    , info, val)
+            end,
             args = {
                 positioning = {
                     order = 1,
@@ -269,7 +272,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].racial[info[#info]] end,
             set = function(info, val) self:UpdateRacialSettings(info.handler.db.profile.layoutSettings[layoutName].racial
-                , info, val) end,
+                    , info, val)
+            end,
             args = {
                 positioning = {
                     order = 1,
@@ -340,7 +344,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].castBar[info[#info]] end,
             set = function(info, val) self:UpdateCastBarSettings(info.handler.db.profile.layoutSettings[layoutName].castBar
-                , info, val) end,
+                    , info, val)
+            end,
             args = {
                 positioning = {
                     order = 1,
@@ -407,7 +412,8 @@ function sArenaMixin:GetLayoutOptionsTable(layoutName)
             name = "Diminishing Returns",
             type = "group",
             get = function(info) return info.handler.db.profile.layoutSettings[layoutName].dr[info[#info]] end,
-            set = function(info, val) self:UpdateDRSettings(info.handler.db.profile.layoutSettings[layoutName].dr, info, val) end,
+            set = function(info, val) self:UpdateDRSettings(info.handler.db.profile.layoutSettings[layoutName].dr, info,
+                val) end,
             args = {
                 positioning = {
                     order = 1,
@@ -747,8 +753,11 @@ sArenaMixin.optionsTable = {
                                     name = "Show Names",
                                     type = "toggle",
                                     get = function(info) return info.handler.db.profile.showNames end,
-                                    set = function(info, val) info.handler.db.profile.showNames = val for i = 1, 5 do info
-                                        .handler["arena" .. i].Name:SetShown(val) end end,
+                                    set = function(info, val) info.handler.db.profile.showNames = val
+                                        for i = 1, 5 do info
+                                                .handler["arena" .. i].Name:SetShown(val)
+                                        end
+                                    end,
                                 },
                             },
                         },
