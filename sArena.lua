@@ -144,7 +144,7 @@ function sArenaMixin:OnEvent(event)
                 ArenaFrame:FindRacial(combatEvent, spellID)
                 ArenaFrame:FindTrinket(combatEvent, spellID)
 
-                if (not ArenaFrame.specTexture and sArenaMixin.specSpells[spellName]) then
+                if (not ArenaFrame.specTexture and self.specSpells[spellName]) then
                     -- print("Spec defining spell: ", spellName, ", on arena", i ")
                     local spec = self.specSpells[spellName]
                     ArenaFrame.specTexture = self.specTextures[spec]
