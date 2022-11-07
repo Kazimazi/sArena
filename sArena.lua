@@ -164,6 +164,28 @@ function sArenaMixin:OnEvent(event)
                 return
             end
         end
+
+        for i = 1, 5 do
+            local ArenaDummyFrame = self["arenaDummy" .. i]
+
+            if (sourceGUID == UnitGUID("arena" .. i)) then
+                ArenaDummyFrame:FindRacial(combatEvent, spellID)
+                ArenaDummyFrame:FindTrinket(combatEvent, spellID)
+
+                if (not ArenaDummyFrame.specTexture and self.specSpells[spellName]) then
+                    -- print("Spec defining spell: ", spellName, ", on arena", i ")
+                    local spec = self.specSpells[spellName]
+                    ArenaDummyFrame.specTexture = self.specTextures[spec]
+                    ArenaDummyFrame.SpecIcon.Texture:SetTexture(ArenaDummyFrame.specTexture)
+                    ArenaDummyFrame.SpecIcon:Show()
+                end
+            end
+
+            if (destGUID == UnitGUID("arena" .. i)) then
+                ArenaDummyFrame:FindInterrupt(combatEvent, spellID)
+                return
+            end
+        end
     end
 end
 
@@ -208,9 +230,13 @@ function sArenaMixin:SetLayout(_, layout)
 
     for i = 1, 5 do
         local frame = self["arena" .. i]
+        local dummyFrame = self["arenaDummy" .. i]
         frame:ResetLayout()
+        dummyFrame:ResetLayout()
         self.layouts[layout]:Initialize(frame)
+        self.layouts[layout]:Initialize(dummyFrame)
         frame:UpdatePlayer()
+        dummyFrame:UpdatePlayer()
     end
 
     self.optionsTable.args.layoutSettingsGroup.args = self.layouts[layout].optionsTable and
@@ -265,13 +291,15 @@ function sArenaMixin:SetupDrag(frameToClick, frameToMove, settingsTable, updateM
 end
 
 function sArenaMixin:SetMouseState(state)
-    for i = 1, 5 do
-        local frame = self["arena" .. i]
-        frame.CastBar:EnableMouse(state)
-        frame.incapacitate:EnableMouse(state)
-        frame.SpecIcon:EnableMouse(state)
-        frame.Trinket:EnableMouse(state)
-        frame.Racial:EnableMouse(state)
+    if not string.find(self:GetName(), "Dummy") then
+        for i = 1, 5 do
+            local frame = self["arena" .. i]
+            frame.CastBar:EnableMouse(state)
+            frame.incapacitate:EnableMouse(state)
+            frame.SpecIcon:EnableMouse(state)
+            frame.Trinket:EnableMouse(state)
+            frame.Racial:EnableMouse(state)
+        end
     end
 end
 
@@ -312,17 +340,18 @@ function sArenaFrameMixin:OnLoad()
     self:RegisterUnitEvent("UNIT_DISPLAYPOWER", unit)
     self:RegisterUnitEvent("UNIT_AURA", unit)
 
-
-    self:RegisterForClicks("AnyUp")
-    self:SetAttribute("*type1", "target")
-    self:SetAttribute("*type2", "focus")
-    self:SetAttribute("unit", unit)
+    if not string.find(self:GetName(), "Dummy") then
+        RegisterUnitWatch(self, false)
+        self:RegisterForClicks("AnyUp")
+        self:SetAttribute("*type1", "target")
+        self:SetAttribute("*type2", "focus")
+        self:SetAttribute("unit", unit)
+    end
     self.unit = unit
 
     CastingBarFrame_SetUnit(self.CastBar, unit, false, true)
     self.healthbar = self.HealthBar
     self.TexturePool = CreateTexturePool(self, "ARTWORK", nil, nil, ResetTexture)
-
 end
 
 function sArenaFrameMixin:OnEvent(event, eventUnit, ...)
@@ -415,6 +444,10 @@ end
 function sArenaFrameMixin:OnShow()
     local frameName = self:GetName()
     local drTable = self.parent.activeDRs[frameName]
+    local dummyFrame = _G[self:GetName() .. "Dummy"]
+
+    dummyFrame:Hide()
+    dummyFrame:ClearAllPoints()
 
     if drTable then
         for key, tableValue in pairs(drTable) do
@@ -431,6 +464,40 @@ function sArenaFrameMixin:OnShow()
                 frame.Cooldown:SetCooldown(tableValue.startTime, tableValue.timer)
 
                 frame:Show()
+            else
+                drTable[key] = nil
+            end
+        end
+    end
+end
+
+function sArenaFrameMixin:OnHide()
+    local _, instanceType = IsInInstance()
+    if instanceType ~= "arena" then return end
+    local frameName = self:GetName()
+    local drTable = self.parent.activeDRs[frameName]
+    local dummyFrame = _G[self:GetName() .. "Dummy"]
+
+    dummyFrame:Show()
+    dummyFrame:SetAllPoints(self)
+
+    if drTable then
+        for key, tableValue in pairs(drTable) do
+            local currTime = GetTime()
+            if currTime < (tableValue.startTime + tableValue.timer) then
+                local frame = dummyFrame[tableValue.drCategory]
+
+                frame.Icon:SetTexture(tableValue.drTexture)
+
+                if tableValue.drSeverity == 2 then
+                    frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity - 1]))
+                else
+                    frame.Border:SetVertexColor(unpack(drFractionSeverityColor[tableValue.drSeverity]))
+                end
+                frame.Cooldown:SetCooldown(tableValue.startTime, tableValue.timer)
+
+                frame:Show()
+
             else
                 drTable[key] = nil
             end
@@ -667,7 +734,8 @@ function sArenaFrameMixin:FindAura()
         local filter = (i == 1 and "HELPFUL" or "HARMFUL")
 
         for n = 1, 30 do
-            local spellName, texture, _, _, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unit, n, filter)
+            local spellName, texture, _, _, duration, expirationTime, unitCaster, _, _, spellID = UnitAura(unit, n,
+                filter)
 
             if (not spellID) then break end
 
