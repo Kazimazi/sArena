@@ -72,7 +72,7 @@ local function UpdateBlizzVisibility(instanceType)
     -- hide blizz arena frames while in arena
     if (InCombatLockdown()) then return end
     if (not IsAddOnLoaded("Blizzard_ArenaUI")) then
-        -- LoadAddOn("Blizzard_ArenaUI")
+        LoadAddOn("Blizzard_ArenaUI")
         return
     end
     if (IsAddOnLoaded("ElvUI")) then return end
@@ -132,8 +132,12 @@ function sArenaMixin:OnEvent(event)
 
         if (instanceType == "arena") then
             self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+            if (InCombatLockdown()) then return end
+            self:Show()
         else
             self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+            if (InCombatLockdown()) then return end
+            self:Hide()
         end
     elseif (event == "COMBAT_LOG_EVENT_UNFILTERED") then
         local _, combatEvent, _, sourceGUID, _, _, _, destGUID, _, _, _, spellID, spellName, _, auraType = CombatLogGetCurrentEventInfo()
@@ -325,8 +329,6 @@ function sArenaFrameMixin:OnLoad()
     local unit = "arena" .. self:GetID()
 
     self.parent = self:GetParent()
-
-    RegisterUnitWatch(self, false)
 
     self:RegisterEvent("PLAYER_LOGIN")
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -529,6 +531,15 @@ function sArenaFrameMixin:UpdatePlayer(unitEvent)
     self:GetClass()
     self:GetSpec()
     self:FindAura()
+
+    if (unitEvent == "cleared") then
+        -- in case I've left some dummy frames behind
+        local dummyFrame = _G[self:GetName() .. "Dummy"]
+        if (dummyFrame) then
+            dummyFrame:Hide()
+            dummyFrame:ClearAllPoints()
+        end
+    end
 
     if ((unitEvent and unitEvent ~= "seen") or (UnitGUID(self.unit) == nil)) then
         self:SetMysteryPlayer()
@@ -888,6 +899,7 @@ function sArenaMixin:Test()
     local _, instanceType = IsInInstance()
     if (InCombatLockdown() or instanceType == "arena") then return end
 
+    self:Show()
     local currTime = GetTime()
 
     for i = 1, 5 do
