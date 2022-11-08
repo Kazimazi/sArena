@@ -765,7 +765,7 @@ function sArenaFrameMixin:FindAura()
 
                 if sArenaMixin.exceptionNames[spellID] then
                     exceptionSpellName = sArenaMixin.exceptionNames[spellID]
-                    print("Exception Name was: ", spellName, " corrected to: ", exceptionSpellName)
+                    -- print("Exception Name was: ", spellName, " corrected to: ", exceptionSpellName)
                     spellName = exceptionSpellName
                 end
 
